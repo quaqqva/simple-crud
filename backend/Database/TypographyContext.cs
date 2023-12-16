@@ -1,7 +1,7 @@
 ﻿using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Repositories;
+namespace backend.Database;
 
 public partial class TypographyContext : DbContext
 {
