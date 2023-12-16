@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
+string password = File.ReadAllText("/run/secrets/db-password");
+string connection = builder.Configuration.GetConnectionString("DefaultConnection")!.Replace("{password}", password);
 builder.Services.AddDbContext<TypographyContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.0.34-mysql")));
 
 var app = builder.Build();
