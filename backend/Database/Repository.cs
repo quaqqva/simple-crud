@@ -1,8 +1,9 @@
+using backend.Database.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Database;
 
-public abstract class Repository<T> where T:class {
+public class Repository<T> where T:class {
   protected TypographyContext _context;
 
   protected DbSet<T> _dbset;
@@ -11,12 +12,14 @@ public abstract class Repository<T> where T:class {
     _context = context;
     _dbset = dbSetSelector(context);
   }
-  public async void Create(T entity) {
-    await _dbset.AddAsync(entity);
+  public async Task<T> Create(T entity) {
+    var newEntity = await _dbset.AddAsync(entity);
     await _context.SaveChangesAsync();
+
+    return newEntity.Entity;
   }
 
-  public async void Update(T entity) {
+  public async Task Update(T entity) {
     _dbset.Update(entity);
     await _context.SaveChangesAsync();
   }
@@ -28,13 +31,19 @@ public abstract class Repository<T> where T:class {
 
   public async Task<T> Read(int id) {
     var entity = await _dbset.FindAsync(id);
-    if (entity == null) throw new Exception("No entity with such id");
+    if (entity == null) throw new DbNotFoundException();
     return entity;
   }
 
-  public async void Delete(int id) {
+  public async Task Delete(int id) {
     var entity = await Read(id);
-    _dbset.Remove(entity);
-    await _context.SaveChangesAsync();
+    if (entity == null) throw new DbNotFoundException();
+    try {
+      _dbset.Remove(entity);
+      await _context.SaveChangesAsync();
+    } catch {
+      throw new DbIntegrityException();
+    }
+
   }
 }
