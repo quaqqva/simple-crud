@@ -10,34 +10,15 @@ namespace backend.Controllers
     {
         public AddressController(TypographyContext context): base(context, (context) => context.Addresses) {}
 
-        public override async Task<ActionResult<Address>> Post([FromBody] AddressViewModel addressViewModel) {
-            if (addressViewModel == null) return new BadRequestResult();
-
-            var address = new Address() {
-              Id = null,
-              Country = addressViewModel.Country,
-              City = addressViewModel.City,
-              Street = addressViewModel.Street,
-              Building = addressViewModel.Building
-            };
-            return new ObjectResult(await _repository.Create(address));
-        }
-
-        public override async Task<ActionResult<Address>> Put(int id, [FromBody] AddressViewModel addressViewModel)
+        protected override Address EntityFromViewModel(AddressViewModel viewModel, int? id = null)
         {
-            var address = new Address() {
+            return new Address() {
                 Id = id,
-                Country = addressViewModel.Country,
-                City = addressViewModel.City,
-                Street = addressViewModel.Street,
-                Building = addressViewModel.Building
+                Country = viewModel.Country,
+                City = viewModel.City,
+                Street = viewModel.Street,
+                Building = viewModel.Building
             };
-            try {
-                await _repository.Update(address);
-                return new ObjectResult(await _repository.Read(id));
-            } catch {
-                return new BadRequestResult();
-            }
         }
     }
 }

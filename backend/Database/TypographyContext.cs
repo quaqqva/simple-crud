@@ -26,8 +26,6 @@ public partial class TypographyContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<Totalprice> Totalprices { get; set; }
-
     public virtual DbSet<Workshop> Workshops { get; set; }
 
 
@@ -140,18 +138,6 @@ public partial class TypographyContext : DbContext
                 .HasForeignKey(d => d.WorkshopNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Product_Workshop1");
-        });
-
-        modelBuilder.Entity<Totalprice>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("totalprices");
-
-            entity.Property(e => e.Name).HasMaxLength(45);
-            entity.Property(e => e.TotalPrice1)
-                .HasPrecision(42)
-                .HasColumnName("Total Price");
         });
 
         modelBuilder.Entity<Workshop>(entity =>

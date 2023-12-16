@@ -28,10 +28,24 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public abstract Task<ActionResult<T>> Post([FromBody] V viewModel);
+        public async Task<ActionResult<T>> Post([FromBody] V viewModel) {
+            if (viewModel == null) return new BadRequestResult();
+            var entity = EntityFromViewModel(viewModel);
+            return new ObjectResult(await _repository.Create(entity));
+        }
 
         [HttpPut("{id}")]
-        public abstract Task<ActionResult<T>> Put(int id, [FromBody] V viewModel);
+        public async Task<ActionResult<T>> Put(int id, [FromBody] V viewModel) {
+            if (viewModel == null) return new BadRequestResult();
+
+            var entity = EntityFromViewModel(viewModel);
+            try {
+                await _repository.Update(entity);
+                return new ObjectResult(await _repository.Read(id));
+            } catch {
+                return new BadRequestResult();
+            }
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<T>> Delete(int id) {
@@ -44,5 +58,7 @@ namespace backend.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        protected abstract T EntityFromViewModel(V viewModel, int? id = null);
     }
 }

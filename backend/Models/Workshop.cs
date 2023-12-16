@@ -1,14 +1,16 @@
 ﻿namespace backend.Models;
 
-public partial class Workshop
-{
-    public int Number { get; set; }
-
+public partial class WorkshopViewModel {
     public string Name { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
 
     public int ChiefId { get; set; }
+}
+
+public partial class Workshop: WorkshopViewModel
+{
+    public int? Number { get; set; }
 
     public virtual Chief Chief { get; set; } = null!;
 
