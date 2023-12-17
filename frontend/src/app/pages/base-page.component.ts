@@ -8,7 +8,7 @@ export default abstract class BasePageComponent<T> {
     private dbService: DbService<T>,
     private alertService: TuiAlertService,
   ) {
-    this.onReload().then(console.log);
+    this.onReload();
   }
 
   protected async onCreate(entity: T): Promise<void> {
