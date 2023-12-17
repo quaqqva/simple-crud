@@ -2,17 +2,31 @@ import { Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'address',
-    loadComponent: () =>
-      import('./pages/addresses-page/addresses-page.component').then(
-        (module) => module.AddressesPageComponent,
-      ),
-  },
-  {
     path: 'chief',
     loadComponent: () =>
       import('./pages/chiefs-page/chiefs-page.component').then(
         (module) => module.ChiefsPageComponent,
+      ),
+  },
+  {
+    path: 'workshop',
+    loadComponent: () =>
+      import('./pages/workshops-page/workshops-page.component').then(
+        (module) => module.WorkshopsPageComponent,
+      ),
+  },
+  {
+    path: 'product',
+    loadComponent: () =>
+      import('./pages/products-page/products-page.component').then(
+        (module) => module.ProductsPageComponent,
+      ),
+  },
+  {
+    path: 'order',
+    loadComponent: () =>
+      import('./pages/orders-page/orders-page.component').then(
+        (module) => module.OrdersPageComponent,
       ),
   },
   {
@@ -30,24 +44,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'order',
+    path: 'address',
     loadComponent: () =>
-      import('./pages/orders-page/orders-page.component').then(
-        (module) => module.OrdersPageComponent,
-      ),
-  },
-  {
-    path: 'product',
-    loadComponent: () =>
-      import('./pages/products-page/products-page.component').then(
-        (module) => module.ProductsPageComponent,
-      ),
-  },
-  {
-    path: 'workshop',
-    loadComponent: () =>
-      import('./pages/workshops-page/workshops-page.component').then(
-        (module) => module.WorkshopsPageComponent,
+      import('./pages/addresses-page/addresses-page.component').then(
+        (module) => module.AddressesPageComponent,
       ),
   },
 ];

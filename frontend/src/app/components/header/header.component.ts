@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
+import routes from '../../app.routes';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
     TuiSelectModule,
     TuiDataListWrapperModule,
     TuiTextfieldControllerModule,
+    FormsModule,
     ReactiveFormsModule,
     TuiButtonModule,
   ],
@@ -29,11 +31,13 @@ export class HeaderComponent {
     'Адресы',
   ];
 
-  public pageSelect = new FormControl();
+  public pageSelect = new FormControl(null);
 
   public constructor(router: Router) {
-    this.pageSelect.registerOnChange((item: string) => {
-      router.navigateByUrl(item);
+    this.pageSelect.valueChanges.subscribe((value: unknown) => {
+      const selected = value as string;
+      const route = routes[this.items.indexOf(selected)].path;
+      router.navigateByUrl(route!);
     });
   }
 
