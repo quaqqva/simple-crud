@@ -71,11 +71,21 @@ export default abstract class BasePageComponent<T> {
   }
 
   protected showOkMessage(message: string): void {
-    this.alertService.open(message).subscribe();
+    this.alertService
+      .open(message, {
+        status: 'success',
+        autoClose: true,
+      })
+      .subscribe();
   }
 
   protected showErrorMesage(message: string): void {
-    this.alertService.open(message).subscribe();
+    this.alertService
+      .open(message, {
+        status: 'error',
+        autoClose: true,
+      })
+      .subscribe();
   }
 
   // protected abstract showDetailsDialog(entity: T): void;
