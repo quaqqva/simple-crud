@@ -1,6 +1,7 @@
 using backend.Models;
 using backend.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -8,7 +9,12 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class AddressController : BaseController<Address, AddressViewModel>
     {
-        public AddressController(TypographyContext context): base(context, (context) => context.Addresses) {}
+        public AddressController(TypographyContext context): 
+        base(
+        context, 
+        (context) => context.Addresses,
+        (address) => address.Id,
+        (context) => context.Addresses.Include(address => address.Customers).ToArrayAsync()) {}
 
         protected override Address EntityFromViewModel(AddressViewModel viewModel, int? id = null)
         {

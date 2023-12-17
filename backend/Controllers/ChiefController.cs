@@ -1,6 +1,7 @@
 using backend.Models;
 using backend.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -8,7 +9,11 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class ChiefController : BaseController<Chief, ChiefViewModel>
     {
-        public ChiefController(TypographyContext context): base(context, (context) => context.Chiefs) {}
+        public ChiefController(TypographyContext context): 
+        base(context, 
+        (context) => context.Chiefs,
+        (chief) => chief.Id,
+        (context) => context.Chiefs.Include(chief => chief.Workshops).ToArrayAsync()) {}
 
         protected override Chief EntityFromViewModel(ChiefViewModel viewModel, int? id = null)
         {

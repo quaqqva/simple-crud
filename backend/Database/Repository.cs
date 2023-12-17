@@ -8,9 +8,18 @@ public class Repository<T> where T:class {
 
   protected DbSet<T> _dbset;
 
-  public Repository(TypographyContext context, Func<TypographyContext, DbSet<T>> dbSetSelector) {
+  protected Func<TypographyContext, Task<T[]>> _fullEntitiesSelector;
+
+  protected Func<T, int?> _idSelecor;
+
+  public Repository(TypographyContext context, 
+  Func<TypographyContext, DbSet<T>> dbSetSelector,
+  Func<T, int?> idSelector,
+  Func<TypographyContext, Task<T[]>> fullEntitiesSelector) {
     _context = context;
     _dbset = dbSetSelector(context);
+    _idSelecor = idSelector;
+    _fullEntitiesSelector = fullEntitiesSelector;
   }
   public async Task<T> Create(T entity) {
     var newEntity = await _dbset.AddAsync(entity);
@@ -29,12 +38,12 @@ public class Repository<T> where T:class {
   }
 
   public async Task<T[]> Read() {
-    var entities = await _dbset.ToArrayAsync();
+    var entities = await _fullEntitiesSelector(_context);
     return entities;
   }
 
   public async Task<T> Read(int id) {
-    var entity = await _dbset.FindAsync(id);
+    var entity = (await _fullEntitiesSelector(_context)).FirstOrDefault((entity) => _idSelecor(entity) == id);
     if (entity == null) throw new DbNotFoundException();
     return entity;
   }

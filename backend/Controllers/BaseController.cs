@@ -9,8 +9,11 @@ namespace backend.Controllers
     {
         protected Repository<T> _repository;
 
-        public BaseController(TypographyContext context, Func<TypographyContext, DbSet<T>> selector) {
-            _repository = new Repository<T>(context, selector);
+        public BaseController(TypographyContext context, 
+        Func<TypographyContext, DbSet<T>> dbSetSelector,
+        Func<T, int?> idSelector,
+        Func<TypographyContext, Task<T[]>> fullEntitiesSelector) {
+            _repository = new Repository<T>(context, dbSetSelector, idSelector, fullEntitiesSelector);
         }
 
         [HttpGet]
