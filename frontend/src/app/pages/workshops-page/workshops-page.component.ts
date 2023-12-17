@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { TuiAlertService } from '@taiga-ui/core';
+import { Workshop } from '../../models/workshop.model';
+import { WorkshopsService } from '../../services/workshops.service';
+import BasePageComponent from '../base-page.component';
 
 @Component({
   selector: 'app-workshops-page',
@@ -7,4 +11,11 @@ import { Component } from '@angular/core';
   templateUrl: './workshops-page.component.html',
   styleUrl: './workshops-page.component.scss',
 })
-export class WorkshopsPageComponent {}
+export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
+  public constructor(
+    dbService: WorkshopsService,
+    alertService: TuiAlertService,
+  ) {
+    super(dbService, alertService);
+  }
+}

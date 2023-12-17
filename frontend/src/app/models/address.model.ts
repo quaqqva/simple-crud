@@ -2,7 +2,7 @@
 import { Customer } from './customer.model';
 
 export type Address = {
-  id?: string;
+  id?: number;
   country: string;
   city: string;
   street: string;

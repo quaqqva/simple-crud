@@ -5,7 +5,7 @@ export abstract class DbService<T> {
   constructor(
     private httpClient: HttpClient,
     private endpoint: string,
-    private idSelector: (entity: T) => number,
+    private idSelector: (entity: T) => number | undefined,
   ) {}
 
   public async getById(id: number): Promise<T> {
@@ -31,6 +31,8 @@ export abstract class DbService<T> {
 
   public async update(entity: T): Promise<T> {
     const id = this.idSelector(entity);
+    if (!id) throw Error('ID не предоставлен');
+
     const response = await firstValueFrom(
       this.httpClient.put<T>(`${this.endpoint}/${id}`, entity, {
         observe: 'response',
@@ -40,7 +42,8 @@ export abstract class DbService<T> {
     return response.body as T;
   }
 
-  public async delete(id: number): Promise<void> {
+  public async delete(entity: T): Promise<void> {
+    const id = this.idSelector(entity);
     const response = await firstValueFrom(
       this.httpClient.delete(`${this.endpoint}/${id}`, {
         observe: 'response',
