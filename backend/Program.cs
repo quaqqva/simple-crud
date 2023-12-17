@@ -12,6 +12,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
+                          builder.AllowAnyMethod();
                           builder.WithOrigins("http://localhost:4200",
                                               "http://frontend:4200");
                       });

@@ -1,1 +1,90 @@
-<p>addresses-page works!</p>
+<div class="data-table-wrapper">
+  <div class="data-table__title-wrapper">
+    <button
+      class="page-reload"
+      appearance="flat"
+      tuiButton
+      (click)="onReload()"
+    >
+      Перезагрузить
+    </button>
+    <button
+      class="page-reload"
+      appearance="flat"
+      tuiButton
+      (click)="onReload()"
+    >
+      Добавить
+    </button>
+    <h1 class="page-title">Адресы</h1>
+  </div>
+  <table
+    tuiTable
+    [columns]="columns.concat('Действия')"
+    class="data-table addresses"
+    size="l"
+  >
+    <thead>
+      <tr tuiThGroup>
+        <th *ngFor="let header of columns" tuiTh>{{ header }}</th>
+        <th [rowSpan]="3" tuiTh>Действия</th>
+      </tr>
+    </thead>
+    <tbody tuiTbody [data]="items">
+      <tr tuiTr *ngFor="let item of shownItems">
+        <td *tuiCell="'ID'" tuiTd>
+          {{ item.id }}
+        </td>
+        <td *tuiCell="'Страна'" tuiTd>
+          {{ item.country }}
+        </td>
+        <td *tuiCell="'Город'" tuiTd>
+          {{ item.city }}
+        </td>
+        <td *tuiCell="'Улица'" tuiTd>
+          {{ item.street }}
+        </td>
+        <td *tuiCell="'Здание'" tuiTd>
+          {{ item.building }}
+        </td>
+        <td class="actions" tuiTd *tuiCell="'Действия'">
+          <button
+            class="actions__details"
+            appearance="details"
+            size="s"
+            tuiButton
+          >
+            Подробности
+          </button>
+          <button
+            class="actions__update"
+            appearance="update"
+            size="s"
+            tuiButton
+          >
+            Изменить
+          </button>
+          <button
+            class="actions__delete"
+            appearance="delete"
+            size="s"
+            tuiButton
+            (click)="showDeleteDialog(item)"
+          >
+            Удалить
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td [colSpan]="columns.length + 1">
+          <tui-table-pagination
+            [total]="items.length"
+            (paginationChange)="onPaginationChange($event)"
+          ></tui-table-pagination>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

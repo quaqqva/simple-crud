@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 export abstract class DbService<T> {
@@ -9,13 +9,17 @@ export abstract class DbService<T> {
   ) {}
 
   public async getById(id: number): Promise<T> {
-    const response = await firstValueFrom(
-      this.httpClient.get<T>(`${this.endpoint}/${id}`, {
-        observe: 'response',
-      }),
-    );
-    DbService.handleError(response.status);
-    return response.body as T;
+    try {
+      const response = await firstValueFrom(
+        this.httpClient.get<T>(`${this.endpoint}/${id}`, {
+          observe: 'response',
+        }),
+      );
+      return response.body as T;
+    } catch (error) {
+      DbService.handleError((error as HttpErrorResponse).status);
+      throw error;
+    }
   }
 
   public getAll(): Promise<T[]> {
@@ -23,33 +27,41 @@ export abstract class DbService<T> {
   }
 
   public async create(entity: T): Promise<T> {
-    const response = firstValueFrom(
-      this.httpClient.post(this.endpoint, entity),
-    );
-    return (await response) as T;
+    try {
+      const response = await firstValueFrom(
+        this.httpClient.post(this.endpoint, entity),
+      );
+      return (await response) as T;
+    } catch (error) {
+      DbService.handleError((error as HttpErrorResponse).status);
+      throw error;
+    }
   }
 
   public async update(entity: T): Promise<T> {
     const id = this.idSelector(entity);
     if (!id) throw Error('ID не предоставлен');
 
-    const response = await firstValueFrom(
-      this.httpClient.put<T>(`${this.endpoint}/${id}`, entity, {
-        observe: 'response',
-      }),
-    );
-    DbService.handleError(response.status);
-    return response.body as T;
+    try {
+      const response = await firstValueFrom(
+        this.httpClient.put<T>(`${this.endpoint}/${id}`, entity, {
+          observe: 'response',
+        }),
+      );
+      return response.body as T;
+    } catch (error) {
+      DbService.handleError((error as HttpErrorResponse).status);
+      throw error;
+    }
   }
 
   public async delete(entity: T): Promise<void> {
     const id = this.idSelector(entity);
-    const response = await firstValueFrom(
+    await firstValueFrom(
       this.httpClient.delete(`${this.endpoint}/${id}`, {
         observe: 'response',
       }),
-    );
-    DbService.handleError(response.status);
+    ).catch((errResponse) => DbService.handleError(errResponse.status));
   }
 
   private static handleError(status: number): void {

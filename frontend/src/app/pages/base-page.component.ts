@@ -1,12 +1,21 @@
-import { TuiAlertService } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
+import { TuiTablePagination } from '@taiga-ui/addon-table';
+import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
 import { DbService } from '../services/db.service';
 
 export default abstract class BasePageComponent<T> {
   protected items: T[] = [];
 
+  protected shownItems: T[] = [];
+
+  private pageSize: number = 10;
+
+  private pageNum: number = 1;
+
   public constructor(
     private dbService: DbService<T>,
     private alertService: TuiAlertService,
+    private dialogService?: TuiDialogService,
   ) {
     this.onReload();
   }
@@ -34,7 +43,7 @@ export default abstract class BasePageComponent<T> {
 
   protected async onDelete(entity: T): Promise<void> {
     try {
-      this.dbService.delete(entity);
+      await this.dbService.delete(entity);
       this.items = this.items.filter((item) => item !== entity);
       this.showOkMessage('Запись успешно удалена');
     } catch (error) {
@@ -44,13 +53,50 @@ export default abstract class BasePageComponent<T> {
 
   protected async onReload(): Promise<void> {
     this.items = await this.dbService.getAll();
+    this.paginate();
+  }
+
+  protected onPaginationChange(pagination: TuiTablePagination) {
+    const { size, page } = pagination;
+    this.pageSize = size;
+    this.pageNum = page + 1;
+    this.paginate();
+  }
+
+  private paginate(): void {
+    this.shownItems = this.items.slice(
+      this.pageSize * (this.pageNum - 1),
+      this.pageSize * this.pageNum,
+    );
   }
 
   protected showOkMessage(message: string): void {
-    this.alertService.open(message);
+    this.alertService.open(message).subscribe();
   }
 
   protected showErrorMesage(message: string): void {
-    this.alertService.open(message);
+    this.alertService.open(message).subscribe();
+  }
+
+  // protected abstract showDetailsDialog(entity: T): void;
+
+  // protected abstract showUpdateDialog(entity?: T): void;
+
+  protected showDeleteDialog(entity: T): void {
+    if (this.dialogService) {
+      const promptData: TuiPromptData = {
+        yes: 'Да',
+        no: 'Нет',
+      };
+      this.dialogService
+        .open<boolean>(TUI_PROMPT, {
+          label: 'Вы уверены, что хотите удалить запись?',
+          size: 'm',
+          data: promptData,
+        })
+        .subscribe((isYes) => {
+          if (isYes) this.onDelete(entity);
+        });
+    }
   }
 }

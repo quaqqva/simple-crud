@@ -1,1 +1,101 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'mixins';
+
+.page-title {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  height: 50px;
+
+  font-size: 3em;
+}
+
+.data-table-wrapper {
+  margin: 20px auto 0;
+  padding: 50px 20px;
+
+  background-color: white;
+  border-radius: 60px;
+
+  width: 80%;
+}
+
+.data-table {
+  margin: 0 auto;
+
+  td,
+  th {
+    white-space: nowrap;
+    border-color: var(--tui-base-04);
+    text-align: center;
+  }
+
+  th:first-of-type,
+  td:first-of-type {
+    font-weight: bold !important;
+  }
+}
+
+.actions {
+  @include flex($gap: 10px);
+}
+
+[tuiwrapper][data-appearance='details'] {
+  color: var(--tui-primary);
+  border: 1px solid;
+  background-color: white;
+
+  &:hover {
+    background: var(--tui-primary-hover);
+    color: white;
+  }
+
+  &:active {
+    background: var(--tui-primary-active);
+    color: white;
+  }
+
+  &:disabled {
+    background: #eaecee;
+  }
+}
+
+[tuiwrapper][data-appearance='update'] {
+  color: rgb(0, 113, 64);
+  border: 1px solid;
+  background-color: white;
+
+  &:hover {
+    background: rgb(1, 199, 113);
+    color: white;
+  }
+
+  &:active {
+    background: rgb(0, 160, 91);
+    color: white;
+  }
+
+  &:disabled {
+    background: #eaecee;
+  }
+}
+
+[tuiwrapper][data-appearance='delete'] {
+  color: var(--tui-accent);
+  border: 1px solid;
+  background-color: white;
+
+  &:hover {
+    background: var(--tui-accent-hover);
+    color: white;
+  }
+
+  &:active {
+    background: var(--tui-accent-active);
+    color: white;
+  }
+
+  &:disabled {
+    background: #eaecee;
+  }
+}

@@ -33,8 +33,12 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<T>> Post([FromBody] V viewModel) {
             if (viewModel == null) return new BadRequestResult();
-            var entity = EntityFromViewModel(viewModel);
-            return new ObjectResult(await _repository.Create(entity));
+            try {
+                var entity = EntityFromViewModel(viewModel);
+                return new ObjectResult(await _repository.Create(entity));
+            } catch {
+                return new BadRequestResult();
+            }
         }
 
         [HttpPut("{id}")]

@@ -22,10 +22,14 @@ public class Repository<T> where T:class {
     _fullEntitiesSelector = fullEntitiesSelector;
   }
   public async Task<T> Create(T entity) {
-    var newEntity = await _dbset.AddAsync(entity);
-    await _context.SaveChangesAsync();
-
-    return newEntity.Entity;
+    try {
+      var newEntity = await _dbset.AddAsync(entity);
+      await _context.SaveChangesAsync();
+  
+      return newEntity.Entity;
+    } catch {
+      throw new DbIntegrityException();
+    }
   }
 
   public async Task Update(T entity) {
