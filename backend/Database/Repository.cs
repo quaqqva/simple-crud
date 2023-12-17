@@ -20,8 +20,12 @@ public class Repository<T> where T:class {
   }
 
   public async Task Update(T entity) {
-    _dbset.Update(entity);
-    await _context.SaveChangesAsync();
+    try {
+      _dbset.Update(entity);
+      await _context.SaveChangesAsync();
+    } catch {
+      throw new DbIntegrityException();
+    }
   }
 
   public async Task<T[]> Read() {

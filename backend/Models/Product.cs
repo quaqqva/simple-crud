@@ -14,5 +14,5 @@ public partial class Product: ProductViewModel
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();
 
-    public virtual Workshop WorkshopNumberNavigation { get; set; } = null!;
+    public virtual Workshop Workshop { get; set; } = null!;
 }

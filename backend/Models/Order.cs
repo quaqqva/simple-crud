@@ -12,7 +12,7 @@ public partial class Order: OrderViewModel
 {
     public int? Id { get; set; }
 
-    public virtual Contract ContractNumberNavigation { get; set; } = null!;
+    public virtual Contract Contract { get; set; } = null!;
 
-    public virtual Product ProductCodeNavigation { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
 }
