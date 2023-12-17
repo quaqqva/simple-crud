@@ -40,7 +40,4 @@ export class HeaderComponent {
       router.navigateByUrl(route!);
     });
   }
-
-  // eslint-disable-next-line class-methods-use-this
-  showReport(): void {}
 }
