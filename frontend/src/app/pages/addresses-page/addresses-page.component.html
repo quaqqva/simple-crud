@@ -20,13 +20,13 @@
   </div>
   <table
     tuiTable
-    [columns]="columns.concat('Действия')"
+    [columns]="itemFieldNames.concat('Действия')"
     class="data-table addresses"
     size="l"
   >
     <thead>
       <tr tuiThGroup>
-        <th *ngFor="let header of columns" tuiTh>{{ header }}</th>
+        <th *ngFor="let header of itemFieldNames" tuiTh>{{ header }}</th>
         <th [rowSpan]="3" tuiTh>Действия</th>
       </tr>
     </thead>
@@ -53,6 +53,7 @@
             appearance="details"
             size="s"
             tuiButton
+            (click)="showDetailsDialog(details, item)"
           >
             Подробности
           </button>
@@ -78,7 +79,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <td [colSpan]="columns.length + 1">
+        <td [colSpan]="itemFieldNames.length + 1">
           <tui-table-pagination
             [total]="items.length"
             (paginationChange)="onPaginationChange($event)"
@@ -88,3 +89,38 @@
     </tfoot>
   </table>
 </div>
+
+<ng-template #details>
+  <div class="entity-details">
+    <h2 class="entity-details__title">Подробности</h2>
+    <div class="entity-value">
+      <span class="entity-field-name">ID</span>
+      <span class="entity-field-value">{{ currentItem?.id }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Страна</span>
+      <span class="entity-field-value">{{ currentItem?.country }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Город</span>
+      <span class="entity-field-value">{{ currentItem?.city }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Улица</span>
+      <span class="entity-field-value">{{ currentItem?.street }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Здание</span>
+      <span class="entity-field-value">{{ currentItem?.building }}</span>
+    </div>
+    <h3 class="entity-list-title">Клиенты, живущие по адресу</h3>
+    <tui-accordion class="container" size="s">
+      <tui-accordion-item *ngFor="let customer of currentItem?.customers">
+        {{ customer.name }}
+        <ng-template tuiAccordionItemContent>
+          ID: {{ customer.id }}<br />
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+  </div>
+</ng-template>

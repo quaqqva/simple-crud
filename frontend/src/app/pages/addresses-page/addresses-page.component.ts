@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   TuiAlertService,
@@ -9,6 +9,7 @@ import {
   TuiTableModule,
   TuiTablePaginationModule,
 } from '@taiga-ui/addon-table';
+import { TuiAccordionModule } from '@taiga-ui/kit';
 
 import BasePageComponent from '../base-page.component';
 import { Address } from '../../models/address.model';
@@ -22,12 +23,20 @@ import { AddressesService } from '../../services/addresses.service';
     TuiButtonModule,
     TuiTableModule,
     TuiTablePaginationModule,
+    TuiAccordionModule,
   ],
   templateUrl: './addresses-page.component.html',
   styleUrl: './addresses-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AddressesPageComponent extends BasePageComponent<Address> {
-  public columns = ['ID', 'Страна', 'Город', 'Улица', 'Здание'];
+  protected override itemFieldNames = [
+    'ID',
+    'Страна',
+    'Город',
+    'Улица',
+    'Здание',
+  ];
 
   public constructor(
     dbService: AddressesService,

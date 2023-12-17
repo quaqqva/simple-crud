@@ -1,1 +1,112 @@
-<p>products-page works!</p>
+<div class="data-table-wrapper">
+  <div class="data-table__title-wrapper">
+    <button
+      class="page-reload"
+      appearance="flat"
+      tuiButton
+      (click)="onReload()"
+    >
+      Перезагрузить
+    </button>
+    <button
+      class="page-reload"
+      appearance="flat"
+      tuiButton
+      (click)="onReload()"
+    >
+      Добавить
+    </button>
+    <h1 class="page-title">Продукты</h1>
+  </div>
+  <table
+    tuiTable
+    [columns]="itemFieldNames.concat('Действия')"
+    class="data-table contractes"
+    size="l"
+  >
+    <thead>
+      <tr tuiThGroup>
+        <th *ngFor="let header of itemFieldNames" tuiTh>{{ header }}</th>
+        <th [rowSpan]="3" tuiTh>Действия</th>
+      </tr>
+    </thead>
+    <tbody tuiTbody [data]="items">
+      <tr tuiTr *ngFor="let item of shownItems">
+        <td *tuiCell="'ID'" tuiTd>
+          {{ item.code }}
+        </td>
+        <td *tuiCell="'Название'" tuiTd>
+          {{ item.name }}
+        </td>
+        <td *tuiCell="'Цена'" tuiTd>
+          {{ item.price }}
+        </td>
+        <td class="actions" tuiTd *tuiCell="'Действия'">
+          <button
+            class="actions__details"
+            appearance="details"
+            size="s"
+            tuiButton
+            (click)="showDetailsDialog(details, item)"
+          >
+            Подробности
+          </button>
+          <button
+            class="actions__update"
+            appearance="update"
+            size="s"
+            tuiButton
+          >
+            Изменить
+          </button>
+          <button
+            class="actions__delete"
+            appearance="delete"
+            size="s"
+            tuiButton
+            (click)="showDeleteDialog(item)"
+          >
+            Удалить
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td [colSpan]="itemFieldNames.length + 1">
+          <tui-table-pagination
+            [total]="items.length"
+            (paginationChange)="onPaginationChange($event)"
+          ></tui-table-pagination>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<ng-template #details>
+  <div class="entity-details">
+    <h2 class="entity-details__title">Подробности</h2>
+    <div class="entity-value">
+      <span class="entity-field-name">ID</span>
+      <span class="entity-field-value">{{ currentItem?.code }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Название</span>
+      <span class="entity-field-value">{{ currentItem?.name }}</span>
+    </div>
+    <div class="entity-value">
+      <span class="entity-field-name">Цена</span>
+      <span class="entity-field-value">{{ currentItem?.price }}</span>
+    </div>
+    <tui-accordion class="container" size="s">
+      <tui-accordion-item>
+        Цех, в котором производят
+        <ng-template tuiAccordionItemContent>
+          ID: {{ currentItem?.workshop?.number }}<br />
+          Номер телефона: {{ currentItem?.workshop?.phoneNumber }}
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+  </div>
+</ng-template>

@@ -1,12 +1,18 @@
 import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 import { TuiTablePagination } from '@taiga-ui/addon-table';
 import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DbService } from '../services/db.service';
 
-export default abstract class BasePageComponent<T> {
+export default abstract class BasePageComponent<T extends object> {
   protected items: T[] = [];
 
   protected shownItems: T[] = [];
+
+  protected currentItem?: T;
+
+  protected abstract itemFieldNames: string[];
 
   private pageSize: number = 10;
 
@@ -15,7 +21,7 @@ export default abstract class BasePageComponent<T> {
   public constructor(
     private dbService: DbService<T>,
     private alertService: TuiAlertService,
-    private dialogService?: TuiDialogService,
+    private dialogService: TuiDialogService,
   ) {
     this.onReload();
   }
@@ -88,25 +94,26 @@ export default abstract class BasePageComponent<T> {
       .subscribe();
   }
 
-  // protected abstract showDetailsDialog(entity: T): void;
+  protected showDetailsDialog(content: PolymorpheusContent, entity: T): void {
+    this.currentItem = entity;
+    this.dialogService.open(content).subscribe();
+  }
 
   // protected abstract showUpdateDialog(entity?: T): void;
 
   protected showDeleteDialog(entity: T): void {
-    if (this.dialogService) {
-      const promptData: TuiPromptData = {
-        yes: 'Да',
-        no: 'Нет',
-      };
-      this.dialogService
-        .open<boolean>(TUI_PROMPT, {
-          label: 'Вы уверены, что хотите удалить запись?',
-          size: 'm',
-          data: promptData,
-        })
-        .subscribe((isYes) => {
-          if (isYes) this.onDelete(entity);
-        });
-    }
+    const promptData: TuiPromptData = {
+      yes: 'Да',
+      no: 'Нет',
+    };
+    this.dialogService
+      .open<boolean>(TUI_PROMPT, {
+        label: 'Вы уверены, что хотите удалить запись?',
+        size: 'm',
+        data: promptData,
+      })
+      .subscribe((isYes) => {
+        if (isYes) this.onDelete(entity);
+      });
   }
 }

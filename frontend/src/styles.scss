@@ -99,3 +99,35 @@
     background: #eaecee;
   }
 }
+
+.entity-details {
+  @include flex($direction: column, $gap: 20px);
+
+  &__title {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  tui-accordion {
+    width: 60%;
+    align-self: center;
+  }
+}
+
+.entity-value {
+  width: 75%;
+  @include flex($justify-content: flex-start, $gap: 20px);
+  border-bottom: 1px solid black;
+}
+
+.entity-field {
+  &-name {
+    width: 50%;
+    padding-left: 5px;
+  }
+
+  &-value {
+    width: 50%;
+    text-align: center;
+  }
+}
