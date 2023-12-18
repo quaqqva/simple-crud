@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
                           builder.AllowAnyMethod();
                           builder.AllowAnyHeader();
                           builder.WithOrigins("http://localhost:4200",
-                                              "http://frontend:4200");
+                                              "frontend:80");
                       });
 });
 
