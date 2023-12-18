@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 import { TuiTablePagination } from '@taiga-ui/addon-table';
 import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
@@ -11,6 +12,10 @@ export default abstract class BasePageComponent<T extends object> {
   protected shownItems: T[] = [];
 
   protected currentItem?: T;
+
+  protected editedItem?: T;
+
+  protected abstract form: FormGroup;
 
   protected abstract itemFieldNames: string[];
 
@@ -26,10 +31,12 @@ export default abstract class BasePageComponent<T extends object> {
     this.onReload();
   }
 
-  protected async onCreate(entity: T): Promise<void> {
+  protected async onCreate(entity: Partial<T>): Promise<void> {
     try {
-      const newEntity = await this.dbService.create(entity);
-      this.items.push(newEntity);
+      // const newEntity =
+      await this.dbService.create(entity);
+      this.onReload();
+      // this.items.push(newEntity);
       this.showOkMessage('Запись успешно добавлена');
     } catch (error) {
       this.showErrorMesage((error as Error).message);
@@ -38,9 +45,11 @@ export default abstract class BasePageComponent<T extends object> {
 
   protected async onUpdate(entity: T): Promise<void> {
     try {
-      const index = this.items.indexOf(entity);
-      const newEntity = await this.dbService.update(entity);
-      this.items[index] = newEntity;
+      // const index = this.items.indexOf(entity);
+      // const newEntity =
+      await this.dbService.update(entity);
+      this.onReload();
+      // this.items[index] = newEntity;
       this.showOkMessage('Запись успешно обновлена');
     } catch (error) {
       this.showErrorMesage((error as Error).message);
@@ -50,7 +59,9 @@ export default abstract class BasePageComponent<T extends object> {
   protected async onDelete(entity: T): Promise<void> {
     try {
       await this.dbService.delete(entity);
-      this.items = this.items.filter((item) => item !== entity);
+      // const indexOfEntity = this.items.indexOf(entity);
+      // this.items = this.items.filter((item, index) => index !== indexOfEntity);
+      this.onReload();
       this.showOkMessage('Запись успешно удалена');
     } catch (error) {
       this.showErrorMesage((error as Error).message);
@@ -99,7 +110,21 @@ export default abstract class BasePageComponent<T extends object> {
     this.dialogService.open(content).subscribe();
   }
 
-  // protected abstract showUpdateDialog(entity?: T): void;
+  protected showCreateDialog(): void {
+    this.editedItem = undefined;
+    window.scrollTo({
+      top: document.documentElement.offsetHeight,
+      behavior: 'smooth',
+    });
+  }
+
+  protected showUpdateDialog(entity?: T): void {
+    this.editedItem = entity;
+    window.scrollTo({
+      top: document.documentElement.offsetHeight,
+      behavior: 'smooth',
+    });
+  }
 
   protected showDeleteDialog(entity: T): void {
     const promptData: TuiPromptData = {
@@ -116,4 +141,15 @@ export default abstract class BasePageComponent<T extends object> {
         if (isYes) this.onDelete(entity);
       });
   }
+
+  protected onFormSubmit(): void {
+    if (!this.form.valid)
+      this.showErrorMesage('Пожалуйста, заполните форму корректно');
+    const isUpdating = Boolean(this.editedItem);
+    const entity = this.entityFromForm();
+    if (isUpdating) this.onUpdate(entity as T);
+    else this.onCreate(entity);
+  }
+
+  protected abstract entityFromForm(): Partial<T>;
 }

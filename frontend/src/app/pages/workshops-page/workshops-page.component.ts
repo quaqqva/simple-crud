@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
   TuiTableModule,
   TuiTablePaginationModule,
 } from '@taiga-ui/addon-table';
@@ -23,6 +30,8 @@ import BasePageComponent from '../base-page.component';
     TuiTableModule,
     TuiTablePaginationModule,
     TuiAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './workshops-page.component.html',
   styleUrl: './workshops-page.component.scss',
@@ -34,11 +43,30 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
     'Номер телефона',
   ];
 
+  form = this.formBuilder.group({
+    name: new FormControl(null, [Validators.required]),
+    phoneNumber: new FormControl(null, [Validators.required]),
+    chefId: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/\d+/),
+    ]),
+  });
+
   public constructor(
     dbService: WorkshopsService,
     alertService: TuiAlertService,
     dialogService: TuiDialogService,
+    private formBuilder: FormBuilder,
   ) {
     super(dbService, alertService, dialogService);
+  }
+
+  protected override entityFromForm(): Partial<Workshop> {
+    return {
+      number: this.editedItem?.number,
+      name: this.form.get('name')!.value!,
+      phoneNumber: this.form.get('phoneNumber')!.value!,
+      chiefId: this.form.get('chefId')!.value!,
+    };
   }
 }

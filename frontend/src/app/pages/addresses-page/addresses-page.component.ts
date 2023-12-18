@@ -1,4 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   TuiAlertService,
@@ -24,6 +31,8 @@ import { AddressesService } from '../../services/addresses.service';
     TuiTableModule,
     TuiTablePaginationModule,
     TuiAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './addresses-page.component.html',
   styleUrl: './addresses-page.component.scss',
@@ -38,11 +47,29 @@ export class AddressesPageComponent extends BasePageComponent<Address> {
     'Здание',
   ];
 
+  form = this.formBuilder.group({
+    country: new FormControl(null, [Validators.required]),
+    city: new FormControl(null, [Validators.required]),
+    street: new FormControl(null, [Validators.required]),
+    building: new FormControl(null),
+  });
+
   public constructor(
     dbService: AddressesService,
     alertService: TuiAlertService,
     dialogService: TuiDialogService,
+    private formBuilder: FormBuilder,
   ) {
     super(dbService, alertService, dialogService);
+  }
+
+  protected override entityFromForm(): Partial<Address> {
+    return {
+      id: this.editedItem?.id || undefined,
+      country: this.form.get('country')!.value!,
+      city: this.form.get('city')!.value!,
+      street: this.form.get('street')!.value!,
+      building: this.form.get('bulding')!.value,
+    };
   }
 }

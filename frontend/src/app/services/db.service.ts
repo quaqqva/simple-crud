@@ -26,7 +26,7 @@ export abstract class DbService<T> {
     return firstValueFrom(this.httpClient.get<T[]>(this.endpoint));
   }
 
-  public async create(entity: T): Promise<T> {
+  public async create(entity: Partial<T>): Promise<T> {
     try {
       const response = await firstValueFrom(
         this.httpClient.post(this.endpoint, entity),

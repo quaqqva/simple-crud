@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
   TuiTableModule,
   TuiTablePaginationModule,
 } from '@taiga-ui/addon-table';
@@ -23,6 +30,8 @@ import BasePageComponent from '../base-page.component';
     TuiTableModule,
     TuiTablePaginationModule,
     TuiAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './contracts-page.component.html',
   styleUrl: './contracts-page.component.scss',
@@ -34,11 +43,30 @@ export class ContractsPageComponent extends BasePageComponent<Contract> {
     'Дата регистрации',
   ];
 
+  form = this.formBuilder.group({
+    completionDate: new FormControl(null, [Validators.required]),
+    registrationDate: new FormControl(null),
+    customerId: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/\d+/),
+    ]),
+  });
+
   public constructor(
     dbService: ContractsService,
     alertService: TuiAlertService,
     dialogService: TuiDialogService,
+    private formBuilder: FormBuilder,
   ) {
     super(dbService, alertService, dialogService);
+  }
+
+  protected override entityFromForm(): Partial<Contract> {
+    return {
+      number: this.editedItem?.number,
+      completionDate: this.form.get('completionDate')!.value!,
+      registrationDate: this.form.get('registrationDate')?.value || undefined,
+      customerId: this.form.get('customerId')!.value!,
+    };
   }
 }

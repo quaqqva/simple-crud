@@ -12,7 +12,7 @@
       class="page-reload"
       appearance="flat"
       tuiButton
-      (click)="onReload()"
+      (click)="showCreateDialog()"
     >
       Добавить
     </button>
@@ -56,6 +56,7 @@
             appearance="update"
             size="s"
             tuiButton
+            (click)="showUpdateDialog(item)"
           >
             Изменить
           </button>
@@ -82,6 +83,34 @@
       </tr>
     </tfoot>
   </table>
+  <form class="edit-form" [formGroup]="form" (submit)="onFormSubmit()">
+    <label for=""
+      >Дата выполнения
+      <input
+        tuiInput
+        formControlName="completionDate"
+        [ngModel]="editedItem?.completionDate"
+      />
+    </label>
+    <label for=""
+      >Дата регистрации
+      <input
+        tuiInput
+        formControlName="registrationDate"
+        [ngModel]="editedItem?.registrationDate"
+      />
+    </label>
+    <label for=""
+      >ID клиента
+      <input
+        tuiInput
+        formControlName="customerId"
+        [ngModel]="editedItem?.customerId"
+      />
+    </label>
+    <button type="button" (click)="this.form.reset()">Очистить</button>
+    <input type="submit" />
+  </form>
 </div>
 
 <ng-template #details>

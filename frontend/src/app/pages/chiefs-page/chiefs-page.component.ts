@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
 import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import {
   TuiAlertService,
   TuiButtonModule,
   TuiDialogService,
@@ -24,6 +32,8 @@ import BasePageComponent from '../base-page.component';
     TuiTableModule,
     TuiTablePaginationModule,
     TuiAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './chiefs-page.component.html',
   styleUrl: './chiefs-page.component.scss',
@@ -31,11 +41,27 @@ import BasePageComponent from '../base-page.component';
 export class ChiefsPageComponent extends BasePageComponent<Chief> {
   protected override itemFieldNames = ['ID', 'Фамилия', 'Имя', 'Отчество'];
 
+  form = this.formBuilder.group({
+    firstName: new FormControl(null, [Validators.required]),
+    lastName: new FormControl(null, [Validators.required]),
+    patronymic: new FormControl(null),
+  });
+
   public constructor(
     dbService: ChiefsService,
     alertService: TuiAlertService,
     dialogService: TuiDialogService,
+    private formBuilder: FormBuilder,
   ) {
     super(dbService, alertService, dialogService);
+  }
+
+  protected override entityFromForm(): Partial<Chief> {
+    return {
+      id: this.editedItem?.id || undefined,
+      firstName: this.form.get('firstName')!.value!,
+      lastName: this.form.get('lastName')!.value!,
+      patronymic: this.form.get('patronymic')!.value || undefined,
+    };
   }
 }

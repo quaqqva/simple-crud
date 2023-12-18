@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
   TuiAlertService,
   TuiButtonModule,
   TuiDialogService,
@@ -23,6 +30,8 @@ import BasePageComponent from '../base-page.component';
     TuiTableModule,
     TuiTablePaginationModule,
     TuiAccordionModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './customers-page.component.html',
   styleUrl: './customers-page.component.scss',
@@ -30,11 +39,28 @@ import BasePageComponent from '../base-page.component';
 export class CustomersPageComponent extends BasePageComponent<Customer> {
   protected override itemFieldNames: string[] = ['ID', 'Имя'];
 
+  form = this.formBuilder.group({
+    name: new FormControl(null, [Validators.required]),
+    addressId: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/\d+/),
+    ]),
+  });
+
   public constructor(
     dbService: CustomersService,
     alertService: TuiAlertService,
     dialogService: TuiDialogService,
+    private formBuilder: FormBuilder,
   ) {
     super(dbService, alertService, dialogService);
+  }
+
+  protected override entityFromForm(): Partial<Customer> {
+    return {
+      id: this.editedItem?.id,
+      name: this.form.get('name')!.value!,
+      addressId: this.form.get('addressId')!.value!,
+    };
   }
 }
