@@ -29,5 +29,13 @@ namespace backend.Controllers
                 ContractNumber = viewModel.ContractNumber
             };
         }
+
+        protected override Order UpdateEntity(Order source, Order incoming)
+        {
+            source.ProductCode = incoming.ProductCode;
+            source.ProductQuantity = incoming.ProductQuantity;
+            source.ContractNumber = incoming.ContractNumber;
+            return source;
+        }
     }
 }

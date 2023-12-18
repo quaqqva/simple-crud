@@ -29,5 +29,13 @@ namespace backend.Controllers
                 ChiefId = viewModel.ChiefId
             };
         }
+
+        protected override Workshop UpdateEntity(Workshop source, Workshop incoming)
+        {
+            source.Name = incoming.Name;
+            source.PhoneNumber = incoming.PhoneNumber;
+            source.ChiefId = incoming.ChiefId;
+            return source;
+        }
     }
 }

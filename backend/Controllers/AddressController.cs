@@ -26,5 +26,14 @@ namespace backend.Controllers
                 Building = viewModel.Building
             };
         }
+
+        protected override Address UpdateEntity(Address source, Address incoming)
+        {
+            source.Country = incoming.Country;
+            source.City = incoming.City;
+            source.Street = incoming.Street;
+            source.Building = incoming.Building;
+            return source;
+        }
     }
 }

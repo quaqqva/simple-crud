@@ -26,5 +26,13 @@ namespace backend.Controllers
                 WorkshopNumber = viewModel.WorkshopNumber,
             };
         }
+
+        protected override Product UpdateEntity(Product source, Product incoming)
+        {
+            source.WorkshopNumber = incoming.WorkshopNumber;
+            source.Name = incoming.Name;
+            source.Price = incoming.Price;
+            return source;
+        }
     }
 }

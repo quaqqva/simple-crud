@@ -29,5 +29,13 @@ namespace backend.Controllers
                 CustomerId = viewModel.CustomerId
             };
         }
+
+        protected override Contract UpdateEntity(Contract source, Contract incoming)
+        {
+            source.CustomerId = incoming.CustomerId;
+            source.CompletionDate = incoming.CompletionDate;
+            source.RegistrationDate = incoming.RegistrationDate;
+            return source;
+        }
     }
 }

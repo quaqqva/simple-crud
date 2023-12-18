@@ -24,5 +24,13 @@ namespace backend.Controllers
                 Patronymic = viewModel.Patronymic
             };
         }
+
+        protected override Chief UpdateEntity(Chief source, Chief incoming)
+        {
+            source.LastName = incoming.LastName;
+            source.FirstName = incoming.FirstName;
+            source.Patronymic = incoming.Patronymic;
+            return source;
+        }
     }
 }

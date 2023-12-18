@@ -47,7 +47,9 @@ namespace backend.Controllers
 
             var entity = EntityFromViewModel(viewModel);
             try {
-                await _repository.Update(entity);
+                var source = await _repository.Read(id);
+                source = UpdateEntity(source, entity);
+                await _repository.Update(source);
                 return new ObjectResult(await _repository.Read(id));
             } catch {
                 return new BadRequestResult();
@@ -67,5 +69,7 @@ namespace backend.Controllers
         }
 
         protected abstract T EntityFromViewModel(V viewModel, int? id = null);
+
+        protected abstract T UpdateEntity(T source, T incoming);
     }
 }

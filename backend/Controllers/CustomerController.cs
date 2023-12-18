@@ -27,5 +27,12 @@ namespace backend.Controllers
                 AddressId = viewModel.AddressId
             };
         }
+
+        protected override Customer UpdateEntity(Customer source, Customer incoming)
+        {
+            source.Name = incoming.Name;
+            source.AddressId = incoming.AddressId;
+            return source;
+        }
     }
 }
