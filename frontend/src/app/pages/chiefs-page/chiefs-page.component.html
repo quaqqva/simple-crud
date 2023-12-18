@@ -9,7 +9,7 @@
       Перезагрузить
     </button>
     <button
-      class="page-reload"
+      class="page-create"
       appearance="flat"
       tuiButton
       (click)="showCreateDialog()"
@@ -135,7 +135,9 @@
       <span class="entity-field-name">Отчество</span>
       <span class="entity-field-value">{{ currentItem?.patronymic }}</span>
     </div>
-    <h3 class="entity-list-title">Цехи, которыми управляет</h3>
+    <h3 class="entity-list-title" *ngIf="currentItem?.workshops?.length">
+      Цехи, которыми управляет
+    </h3>
     <tui-accordion class="container" size="s">
       <tui-accordion-item *ngFor="let workshop of currentItem?.workshops">
         {{ workshop.name }}

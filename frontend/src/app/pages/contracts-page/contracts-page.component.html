@@ -9,7 +9,7 @@
       Перезагрузить
     </button>
     <button
-      class="page-reload"
+      class="page-create"
       appearance="flat"
       tuiButton
       (click)="showCreateDialog()"
@@ -132,7 +132,9 @@
         currentItem?.registrationDate | date
       }}</span>
     </div>
-    <h3 class="entity-list-title">Заказы, оформленные по контракту</h3>
+    <h3 class="entity-list-title" *ngIf="currentItem?.orders?.length">
+      Заказы, оформленные по контракту
+    </h3>
     <tui-accordion class="container" size="s">
       <tui-accordion-item *ngFor="let order of currentItem?.orders">
         №{{ order.id }}

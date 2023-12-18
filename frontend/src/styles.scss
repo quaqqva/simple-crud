@@ -109,7 +109,7 @@
   }
 
   tui-accordion {
-    width: 60%;
+    width: 70%;
     align-self: center;
   }
 }
@@ -129,5 +129,34 @@
   &-value {
     width: 50%;
     text-align: center;
+  }
+}
+
+.page-create {
+  margin-left: 20px;
+}
+
+.edit-form {
+  &::before {
+    content: 'Редактирование';
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+
+  margin: 50px auto 0;
+  width: 30%;
+  @include flex($direction: column, $gap: 20px);
+
+  border: 2px solid black;
+  padding: 20px 50px;
+
+  label {
+    width: 100%;
+    @include flex($justify-content: space-between);
+  }
+
+  input {
+    width: 60%;
+    height: 20px;
   }
 }

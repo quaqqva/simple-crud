@@ -9,7 +9,7 @@
       Перезагрузить
     </button>
     <button
-      class="page-reload"
+      class="page-create"
       appearance="flat"
       tuiButton
       (click)="showCreateDialog()"
@@ -121,7 +121,9 @@
         </ng-template>
       </tui-accordion-item>
     </tui-accordion>
-    <h3 class="entity-list-title">Оформленные контракты</h3>
+    <h3 class="entity-list-title" *ngIf="currentItem?.contracts?.length">
+      Оформленные контракты
+    </h3>
     <tui-accordion size="s">
       <tui-accordion-item *ngFor="let contract of currentItem?.contracts">
         №{{ contract.number }}

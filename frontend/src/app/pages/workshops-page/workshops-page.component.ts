@@ -46,7 +46,7 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
   form = this.formBuilder.group({
     name: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
-    chefId: new FormControl(null, [
+    chiefId: new FormControl(null, [
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
@@ -66,7 +66,7 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
       number: this.editedItem?.number,
       name: this.form.get('name')!.value!,
       phoneNumber: this.form.get('phoneNumber')!.value!,
-      chiefId: this.form.get('chefId')!.value!,
+      chiefId: this.form.get('chiefId')!.value!,
     };
   }
 }

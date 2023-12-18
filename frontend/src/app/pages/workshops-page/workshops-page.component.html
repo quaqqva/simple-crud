@@ -9,7 +9,7 @@
       Перезагрузить
     </button>
     <button
-      class="page-reload"
+      class="page-create"
       appearance="flat"
       tuiButton
       (click)="showCreateDialog()"
@@ -137,7 +137,9 @@
       </tui-accordion-item>
     </tui-accordion>
 
-    <h3 class="entity-list-title">Производимые продукты</h3>
+    <h3 class="entity-list-title" *ngIf="currentItem?.products?.length">
+      Производимые продукты
+    </h3>
     <tui-accordion size="s">
       <tui-accordion-item *ngFor="let product of currentItem?.products">
         {{ product?.name }}

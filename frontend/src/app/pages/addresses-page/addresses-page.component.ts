@@ -69,7 +69,7 @@ export class AddressesPageComponent extends BasePageComponent<Address> {
       country: this.form.get('country')!.value!,
       city: this.form.get('city')!.value!,
       street: this.form.get('street')!.value!,
-      building: this.form.get('bulding')!.value,
+      building: this.form.get('building')!.value || undefined,
     };
   }
 }
