@@ -84,6 +84,10 @@
     </tfoot>
   </table>
   <form class="edit-form" [formGroup]="form" (submit)="onFormSubmit()">
+    <label for="">
+      ID
+      <input tuiInput formControlName="number" [ngModel]="editedItem?.number" />
+    </label>
     <label for=""
       >Название
       <input tuiInput formControlName="name" [ngModel]="editedItem?.name" />

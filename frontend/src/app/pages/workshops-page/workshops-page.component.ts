@@ -44,6 +44,10 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
   ];
 
   form = this.formBuilder.group({
+    number: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/\d+/),
+    ]),
     name: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     chiefId: new FormControl(null, [
@@ -63,7 +67,7 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
 
   protected override entityFromForm(): Partial<Workshop> {
     return {
-      number: this.editedItem?.number,
+      number: this.editedItem?.number || this.form.get('number')!.value!,
       name: this.form.get('name')!.value!,
       phoneNumber: this.form.get('phoneNumber')!.value!,
       chiefId: this.form.get('chiefId')!.value!,

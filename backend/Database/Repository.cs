@@ -25,7 +25,6 @@ public class Repository<T> where T:class {
     try {
       var newEntity = await _dbset.AddAsync(entity);
       await _context.SaveChangesAsync();
-  
       return newEntity.Entity;
     } catch {
       throw new DbIntegrityException();
