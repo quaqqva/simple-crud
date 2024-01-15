@@ -1,0 +1,20 @@
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - 80:4200
+    volumes:
+      - ./frontend:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/src/
+    ports:
+      - 5134:5134
+
+volumes:
+  node_modules:

@@ -14,8 +14,8 @@ builder.Services.AddCors(options =>
                       {
                           builder.AllowAnyMethod();
                           builder.AllowAnyHeader();
-                          builder.WithOrigins("http://localhost:4200",
-                                              "frontend:80");
+                          builder.WithOrigins("http://localhost",
+                                              "http://frontend");
                       });
 });
 
@@ -29,10 +29,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
-if (builder.Environment.IsProduction()) {
-    string password = File.ReadAllText("/run/secrets/db-password");
-    connection = connection.Replace("{password}", password);
-} 
+string password = File.ReadAllText("/run/secrets/db-password");
+connection = connection.Replace("{password}", password); 
 builder.Services.AddDbContext<TypographyContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.0.34-mysql")));
 
 var app = builder.Build();

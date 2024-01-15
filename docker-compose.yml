@@ -2,23 +2,21 @@ version: '3.1'
 
 services:
   frontend:
-    build: frontend/
-    ports:
-      - 4200:80
+    build:
+      context: frontend
 
   backend:
-    build: backend/
+    build:
+      context: backend
     secrets:
       - db-password
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - 8000:8080
   
   db:
     build: db/
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=caching_sha2_password
     restart: always
     healthcheck:
       test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$$(cat /run/secrets/db-password)" --silent']

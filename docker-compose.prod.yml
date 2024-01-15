@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.prod
+    ports:
+      - 80:80
+
+  backend:
+    build:
+      dockerfile: Dockerfile.prod
+    ports:
+      - 8080:8080
