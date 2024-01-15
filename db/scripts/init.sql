@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Workshop`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`workshop` (
-  `Number` INT NOT NULL,
+  `Number` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(90) NOT NULL,
   `PhoneNumber` VARCHAR(20) NOT NULL,
   `Chief_ID` INT NOT NULL,
@@ -53,7 +53,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Product`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`product` (
-  `Code` INT NOT NULL,
+  `Code` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Price` INT NOT NULL,
   `Workshop_Number` INT NOT NULL,
@@ -101,7 +101,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Contract`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`contract` (
-  `Number` INT NOT NULL,
+  `Number` INT NOT NULL AUTO_INCREMENT,
   `CompletionDate` DATE NOT NULL,
   `RegistrationDate` DATE NULL,
   `Customer_ID` INT NOT NULL,

@@ -143,8 +143,10 @@ export default abstract class BasePageComponent<T extends object> {
   }
 
   protected onFormSubmit(): void {
-    if (!this.form.valid)
+    if (!this.form.valid) {
       this.showErrorMesage('Пожалуйста, заполните форму корректно');
+      return;
+    }
     const isUpdating = Boolean(this.editedItem);
     const entity = this.entityFromForm();
     if (isUpdating) this.onUpdate(entity as T);

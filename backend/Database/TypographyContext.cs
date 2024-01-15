@@ -71,7 +71,6 @@ public partial class TypographyContext : DbContext
 
             entity.HasIndex(e => e.CustomerId, "fk_Contract_Customer1_idx");
 
-            entity.Property(e => e.Number).ValueGeneratedNever();
             entity.Property(e => e.CustomerId).HasColumnName("Customer_ID");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Contracts)
@@ -131,7 +130,6 @@ public partial class TypographyContext : DbContext
 
             entity.HasIndex(e => e.WorkshopNumber, "fk_Product_Workshop1_idx");
 
-            entity.Property(e => e.Code).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(45);
             entity.Property(e => e.WorkshopNumber).HasColumnName("Workshop_Number");
 
@@ -151,7 +149,6 @@ public partial class TypographyContext : DbContext
 
             entity.HasIndex(e => e.ChiefId, "fk_Workshop_Chief_idx");
 
-            entity.Property(e => e.Number).ValueGeneratedNever();
             entity.Property(e => e.ChiefId).HasColumnName("Chief_ID");
             entity.Property(e => e.Name).HasMaxLength(90);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);

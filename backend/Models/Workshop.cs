@@ -1,4 +1,6 @@
-﻿namespace backend.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace backend.Models;
 
 public partial class WorkshopViewModel {
     public string Name { get; set; } = null!;

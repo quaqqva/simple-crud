@@ -24,6 +24,7 @@ namespace backend.Controllers
                 Code = id,
                 Name = viewModel.Name,
                 WorkshopNumber = viewModel.WorkshopNumber,
+                Price = viewModel.Price
             };
         }
 
