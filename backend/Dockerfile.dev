@@ -12,4 +12,4 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . .
 EXPOSE 5134
-ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5134", "--environment", "Development"]
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5134", "--environment", "Development", "--non-interactive"]
