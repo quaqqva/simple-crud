@@ -1,3 +1,5 @@
+using System.Net;
+using backend.Controllers.ErrorHandling;
 using backend.Database;
 using backend.Database.Exceptions;
 using backend.Entities;
@@ -19,9 +21,9 @@ namespace backend.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<T>> Get(int id) {
             try {
-              return new ObjectResult(await Repository.Read(id, true));
+                return new ObjectResult(await Repository.Read(id, true));
             } catch (DbNotFoundException e) {
-              return NotFound(e.Message);
+                return NotFoundObject(e);
             }
         }
 
@@ -30,8 +32,8 @@ namespace backend.Controllers
             try {
                 var entity = EntityFromDTO(dto);
                 return new ObjectResult(await Repository.Create(entity));
-            } catch (Exception e) {
-                return new BadRequestObjectResult(e.Message);
+            } catch (DbIntegrityException e) {
+                return IntegrityErrorObject(e);
             }
         }
 
@@ -42,9 +44,9 @@ namespace backend.Controllers
                 await Repository.Update(id, entity);
                 return new ObjectResult(await Repository.Read(id));
             } catch(DbIntegrityException e) {
-                return new BadRequestObjectResult(e.Message);
+                return IntegrityErrorObject(e);
             } catch (DbNotFoundException e) {
-                return NotFound(e.Message);
+                return NotFoundObject(e);
             }
         }
 
@@ -54,10 +56,30 @@ namespace backend.Controllers
                 await Repository.Delete(id);
                 return Ok();
             } catch (DbIntegrityException e) {
-                return new BadRequestObjectResult(e.Message);
+                return IntegrityErrorObject(e);
             } catch (DbNotFoundException e) {
-                return NotFound(e.Message);
+                return NotFoundObject(e);
             }
+        }
+
+        private ActionResult IntegrityErrorObject(Exception e) {
+            var result = new ErrorResult() {
+                Status = HttpStatusCode.UnprocessableEntity,
+                Errors = new Dictionary<string, IEnumerable<string>>() {
+                    { "IntegrityError", new string[] { e.Message } }
+                }
+            };
+            return new UnprocessableEntityObjectResult(result);
+        }
+
+        private ActionResult NotFoundObject(Exception e) {
+            var result = new ErrorResult() {
+                Status = HttpStatusCode.NotFound,
+                Errors = new Dictionary<string, IEnumerable<string>>() {
+                    { "NotFound", new string[] { e.Message } }
+                }
+              };
+            return new NotFoundObjectResult(result);
         }
     }
 }

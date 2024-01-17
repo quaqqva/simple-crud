@@ -9,6 +9,7 @@ public class WorkshopDTO {
 
     [Required]
     [MaxLength(20)]
+    [Phone]
     public required string PhoneNumber { get; set; }
 
     [Required]

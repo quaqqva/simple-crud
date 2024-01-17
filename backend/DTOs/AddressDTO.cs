@@ -1,21 +1,23 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace backend.DTOs;
 
 public class AddressDTO {
-    [Required]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Required(ErrorMessage = "Address' country is required")]
     [MaxLength(45)]
     public required string Country { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Address' city is required")]
     [MaxLength(45)]
     public required string City { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Address' street is required")]
     [MaxLength(45)]
     public required string Street { get; set; }
     
-    [Required]
+    [Required(ErrorMessage = "Address' building is required")]
     [MaxLength(45)]
     public required string Building { get; set; }
 }
