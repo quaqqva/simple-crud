@@ -14,8 +14,8 @@ namespace backend.Controllers
         protected abstract T EntityFromDTO(V dto, int? id = null);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<T>>> Get() {
-            return await Repository.Read();
+        public async Task<ActionResult<IEnumerable<T>>> Get(int? limit, int? offset) {
+            return await Repository.Read(limit, offset);
         }
 
         [HttpGet("{id:int}")]

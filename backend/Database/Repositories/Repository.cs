@@ -38,8 +38,10 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     }
   }
 
-  public async Task<T[]> Read() {
-    var entities = DbSet;
+  public async Task<T[]> Read(int? limit, int? offset) {
+    var entities = DbSet as IQueryable<T>;
+    if (offset != null) entities = entities.Skip(offset.Value);
+    if (limit != null) entities = entities.Take(limit.Value);
     return await entities.ToArrayAsync();
   }
 
