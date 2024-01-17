@@ -47,7 +47,7 @@ builder.Services.AddControllers()
             Title = "One or more model validation errors occurred.",
         };
         result.Extensions.Add("traceId", actionContext.HttpContext.TraceIdentifier);
-        return new UnprocessableEntityObjectResult(result);
+        return new BadRequestObjectResult(result);
     };
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
