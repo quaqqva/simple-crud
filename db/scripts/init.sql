@@ -20,7 +20,7 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`Chief`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`chief` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Chief` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Workshop`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`workshop` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Workshop` (
   `Number` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(90) NOT NULL,
   `PhoneNumber` VARCHAR(20) NOT NULL,
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`product` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Product` (
   `Code` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Price` INT NOT NULL,
@@ -70,7 +70,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`address` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Address` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Country` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NOT NULL,
@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Address_ID` INT NOT NULL,
@@ -100,7 +100,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Contract`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`contract` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Contract` (
   `Number` INT NOT NULL AUTO_INCREMENT,
   `CompletionDate` DATE NOT NULL,
   `RegistrationDate` DATE NULL,
@@ -118,7 +118,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`Order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`order` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Order` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `ProductQuantity` INT NOT NULL,
   `Product_Code` INT NOT NULL,
