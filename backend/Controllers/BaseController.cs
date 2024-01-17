@@ -27,7 +27,6 @@ namespace backend.Controllers
 
         [HttpPost]
         public async Task<ActionResult<T>> Post([FromBody] V dto) {
-            if (dto == null) return new BadRequestResult();
             try {
                 var entity = EntityFromDTO(dto);
                 return new ObjectResult(await Repository.Create(entity));
@@ -38,8 +37,6 @@ namespace backend.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult<T>> Put(int id, [FromBody] V dto) {
-            if (dto == null) return new BadRequestResult();
-
             var entity = EntityFromDTO(dto);
             try {
                 await Repository.Update(id, entity);
