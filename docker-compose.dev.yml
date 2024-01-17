@@ -13,8 +13,10 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./backend:/src/
+      - obj:/src/obj
     ports:
       - 5134:5134
 
 volumes:
   node_modules:
+  obj:
