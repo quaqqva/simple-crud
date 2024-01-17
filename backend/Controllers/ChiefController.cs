@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;

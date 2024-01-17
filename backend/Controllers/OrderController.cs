@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
@@ -21,9 +21,9 @@ namespace backend.Controllers
         {
             return new Order() {
                 Id = id,
-                ProductQuantity = dto.ProductQuantity ?? default,
-                ProductCode = dto.ProductCode ?? default,
-                ContractNumber = dto.ContractNumber ?? default
+                ProductQuantity = dto.ProductQuantity,
+                ProductCode = dto.ProductCode,
+                ContractNumber = dto.ContractNumber
             };
         }
     }

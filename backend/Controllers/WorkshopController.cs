@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
@@ -23,7 +23,7 @@ namespace backend.Controllers
                 Id = id,
                 Name = dto.Name,
                 PhoneNumber = dto.PhoneNumber,
-                ChiefId = dto.ChiefId ?? default
+                ChiefId = dto.ChiefId
             };
         }
     }

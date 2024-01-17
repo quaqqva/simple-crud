@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
@@ -20,9 +20,9 @@ namespace backend.Controllers
         {
             return new Contract() {
                 Id = id,
-                CompletionDate = dto.CompletionDate ?? default,
+                CompletionDate = dto.CompletionDate,
                 RegistrationDate = dto.RegistrationDate,
-                CustomerId = dto.CustomerId ?? default
+                CustomerId = dto.CustomerId
             };
         }
     }

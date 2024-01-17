@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Exceptions;
-using backend.Models;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers

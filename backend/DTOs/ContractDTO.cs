@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.DTOs;
 
 public class ContractDTO {
-    public DateOnly? CompletionDate { get; set; }
+    [Required]
+    public required DateOnly CompletionDate { get; set; }
 
     public DateOnly? RegistrationDate { get; set; }
 
-    public int? CustomerId { get; set; }
+    [Required]
+    public required int CustomerId { get; set; }
 }

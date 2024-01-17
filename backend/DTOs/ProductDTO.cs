@@ -1,9 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.DTOs;
 
 public class ProductDTO {
-    public string? Name { get; set; }
+    [Required]
+    [MaxLength(45)]
+    public required string Name { get; set; }
 
-    public int? Price { get; set; }
+    [Required]
+    public required int Price { get; set; }
 
-    public int? WorkshopNumber { get; set; }
+    [Required]
+    public required int WorkshopNumber { get; set; }
 }

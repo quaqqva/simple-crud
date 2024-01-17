@@ -1,6 +1,5 @@
-﻿using backend.Models;
+﻿using backend.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace backend.Database;
 

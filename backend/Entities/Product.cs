@@ -1,5 +1,4 @@
-﻿namespace backend.Models;
-
+﻿namespace backend.Entities;
 
 public class Product: IIdentifiable
 {

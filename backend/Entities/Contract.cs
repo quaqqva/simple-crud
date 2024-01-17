@@ -1,4 +1,4 @@
-﻿namespace backend.Models;
+﻿namespace backend.Entities;
 
 public partial class Contract: IIdentifiable
 {

@@ -1,11 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.DTOs;
 
 public class AddressDTO {
-    public string? Country { get; set; }
+    [Required]
+    [MaxLength(45)]
+    public required string Country { get; set; }
 
-    public string? City { get; set; }
+    [Required]
+    [MaxLength(45)]
+    public required string City { get; set; }
 
-    public string? Street { get; set; }
-
-    public string? Building { get; set; }
+    [Required]
+    [MaxLength(45)]
+    public required string Street { get; set; }
+    
+    [Required]
+    [MaxLength(45)]
+    public required string Building { get; set; }
 }

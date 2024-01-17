@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
@@ -22,8 +22,8 @@ namespace backend.Controllers
             return new Product() {
                 Id = id,
                 Name = dto.Name,
-                WorkshopNumber = dto.WorkshopNumber ?? default,
-                Price = dto.Price ?? default
+                WorkshopNumber = dto.WorkshopNumber,
+                Price = dto.Price
             };
         }
     }

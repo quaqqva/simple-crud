@@ -1,4 +1,4 @@
-using backend.Models;
+using backend.Entities;
 using backend.Database;
 using Microsoft.AspNetCore.Mvc;
 using backend.DTOs;
@@ -21,7 +21,7 @@ namespace backend.Controllers
             return new Customer() {
                 Id = id,
                 Name = dto.Name,
-                AddressId = dto.AddressId ?? default
+                AddressId = dto.AddressId
             };
         }
     }

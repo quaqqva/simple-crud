@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.DTOs;
 
 public class CustomerDTO {
-    public string? Name { get; set; }
+    [Required]
+    [MaxLength(45)]
+    public required string Name { get; set; }
 
-    public int? AddressId { get; set; }
+    [Required]
+    public required int AddressId { get; set; }
 }

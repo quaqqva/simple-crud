@@ -1,6 +1,6 @@
 using System.Data.Common;
 using backend.Database.Exceptions;
-using backend.Models;
+using backend.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Database;
