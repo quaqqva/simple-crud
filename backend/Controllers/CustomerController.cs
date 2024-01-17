@@ -1,38 +1,28 @@
 using backend.Models;
 using backend.Database;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using backend.DTOs;
+using backend.Database.Repositories;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CustomerController : BaseController<Customer, CustomerViewModel>
+    public class CustomerController : BaseController<Customer, CustomerDTO>
     {
-        public CustomerController(TypographyContext context): 
-        base(context, 
-        (context) => context.Customers,
-        (customer) => customer.Id,
-        (context) => context.Customers
-                            .Include(customer => customer.Address)
-                            .Include(customer => customer.Contracts)
-                            .ToArrayAsync()
-        ) {}
+        protected override Repository<Customer> Repository { get; init; }
+        public CustomerController(TypographyContext context)
+        {
+            Repository = new CustomerRepository(context);
+        }
 
-        protected override Customer EntityFromViewModel(CustomerViewModel viewModel, int? id = null)
+        protected override Customer EntityFromDTO(CustomerDTO dto, int? id = null)
         {
             return new Customer() {
                 Id = id,
-                Name = viewModel.Name,
-                AddressId = viewModel.AddressId
+                Name = dto.Name,
+                AddressId = dto.AddressId ?? default
             };
-        }
-
-        protected override Customer UpdateEntity(Customer source, Customer incoming)
-        {
-            source.Name = incoming.Name;
-            source.AddressId = incoming.AddressId;
-            return source;
         }
     }
 }

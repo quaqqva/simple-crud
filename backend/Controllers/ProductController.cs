@@ -1,39 +1,30 @@
 using backend.Models;
 using backend.Database;
+using backend.Database.Repositories;
+using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductController : BaseController<Product, ProductViewModel>
+    public class ProductController : BaseController<Product, ProductDTO>
     {
-        public ProductController(TypographyContext context): 
-        base(context, 
-            (context) => context.Products,
-            (product) => product.Code,
-            (context) => context.Products
-                                .Include((product) => product.Orders)
-                                .Include((product) => product.Workshop)
-                                .ToArrayAsync()) {}
+        protected override Repository<Product> Repository { get; init; }
 
-        protected override Product EntityFromViewModel(ProductViewModel viewModel, int? id = null)
+        public ProductController(TypographyContext context)
         {
-            return new Product() {
-                Code = id,
-                Name = viewModel.Name,
-                WorkshopNumber = viewModel.WorkshopNumber,
-                Price = viewModel.Price
-            };
+            Repository = new ProductRepository(context);
         }
 
-        protected override Product UpdateEntity(Product source, Product incoming)
+        protected override Product EntityFromDTO(ProductDTO dto, int? id = null)
         {
-            source.WorkshopNumber = incoming.WorkshopNumber;
-            source.Name = incoming.Name;
-            source.Price = incoming.Price;
-            return source;
+            return new Product() {
+                Id = id,
+                Name = dto.Name,
+                WorkshopNumber = dto.WorkshopNumber ?? default,
+                Price = dto.Price ?? default
+            };
         }
     }
 }

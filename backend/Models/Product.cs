@@ -1,18 +1,17 @@
 ﻿namespace backend.Models;
 
-public partial class ProductViewModel {
-    public string Name { get; set; } = null!;
 
-    public int Price { get; set; }
-
-    public int WorkshopNumber { get; set; }
-}
-
-public partial class Product: ProductViewModel
+public class Product: IIdentifiable
 {
-    public int? Code { get; set; }
+    public int? Id { get; set; }
 
-    public virtual ICollection<Order> Orders { get; } = new List<Order>();
+    public required string Name { get; set; }
 
-    public virtual Workshop Workshop { get; set; } = null!;
+    public required int Price { get; set; }
+
+    public required int WorkshopNumber { get; set; }
+    
+    public virtual ICollection<Order>? Orders { get; }
+
+    public virtual Workshop? Workshop { get; set; }
 }

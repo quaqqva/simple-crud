@@ -1,41 +1,30 @@
 using backend.Models;
 using backend.Database;
+using backend.Database.Repositories;
+using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WorkshopController : BaseController<Workshop, WorkshopViewModel>
+    public class WorkshopController : BaseController<Workshop, WorkshopDTO>
     {
-        public WorkshopController(TypographyContext context): 
-        base(
-            context, 
-            (context) => context.Workshops,
-            (workshop) => workshop.Number,
-            (context) => context.Workshops
-                                .Include((workshop) => workshop.Products)
-                                .Include((workshop) => workshop.Chief)
-                                .ToArrayAsync()
-        ) {}
+        protected override Repository<Workshop> Repository { get; init; }
 
-        protected override Workshop EntityFromViewModel(WorkshopViewModel viewModel, int? id = null)
+        public WorkshopController(TypographyContext context)
         {
-            return new Workshop() {
-                Number = id,
-                Name = viewModel.Name,
-                PhoneNumber = viewModel.PhoneNumber,
-                ChiefId = viewModel.ChiefId
-            };
+            Repository = new WorkshopRepository(context);
         }
 
-        protected override Workshop UpdateEntity(Workshop source, Workshop incoming)
+        protected override Workshop EntityFromDTO(WorkshopDTO dto, int? id = null)
         {
-            source.Name = incoming.Name;
-            source.PhoneNumber = incoming.PhoneNumber;
-            source.ChiefId = incoming.ChiefId;
-            return source;
+            return new Workshop() {
+                Id = id,
+                Name = dto.Name,
+                PhoneNumber = dto.PhoneNumber,
+                ChiefId = dto.ChiefId ?? default
+            };
         }
     }
 }

@@ -40,7 +40,7 @@ public partial class TypographyContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("address");
+            entity.ToTable("Address");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Building).HasMaxLength(45);
@@ -53,7 +53,7 @@ public partial class TypographyContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("chief");
+            entity.ToTable("Chief");
 
             entity.HasIndex(e => e.Id, "ID_UNIQUE").IsUnique();
 
@@ -65,12 +65,13 @@ public partial class TypographyContext : DbContext
 
         modelBuilder.Entity<Contract>(entity =>
         {
-            entity.HasKey(e => e.Number).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("contract");
+            entity.ToTable("Contract");
 
             entity.HasIndex(e => e.CustomerId, "fk_Contract_Customer1_idx");
 
+            entity.Property(e => e.Id).HasColumnName("Number");
             entity.Property(e => e.CustomerId).HasColumnName("Customer_ID");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Contracts)
@@ -83,7 +84,7 @@ public partial class TypographyContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("customer");
+            entity.ToTable("Customer");
 
             entity.HasIndex(e => e.AddressId, "fk_Customer_Address1_idx");
 
@@ -101,7 +102,7 @@ public partial class TypographyContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("order");
+            entity.ToTable("Order");
 
             entity.HasIndex(e => e.ContractNumber, "fk_Order_Contract1_idx");
 
@@ -124,13 +125,14 @@ public partial class TypographyContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Code).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("product");
+            entity.ToTable("Product");
 
             entity.HasIndex(e => e.WorkshopNumber, "fk_Product_Workshop1_idx");
 
             entity.Property(e => e.Name).HasMaxLength(45);
+            entity.Property(e => e.Id).HasColumnName("Code");
             entity.Property(e => e.WorkshopNumber).HasColumnName("Workshop_Number");
 
             entity.HasOne(d => d.Workshop).WithMany(p => p.Products)
@@ -141,14 +143,15 @@ public partial class TypographyContext : DbContext
 
         modelBuilder.Entity<Workshop>(entity =>
         {
-            entity.HasKey(e => e.Number).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("workshop");
+            entity.ToTable("Workshop");
 
-            entity.HasIndex(e => e.Number, "WorkshopNumber_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.Id, "WorkshopNumber_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.ChiefId, "fk_Workshop_Chief_idx");
 
+            entity.Property(e => e.Id).HasColumnName("Number");
             entity.Property(e => e.ChiefId).HasColumnName("Chief_ID");
             entity.Property(e => e.Name).HasMaxLength(90);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);

@@ -1,41 +1,29 @@
 using backend.Models;
 using backend.Database;
+using backend.Database.Repositories;
+using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ContractController : BaseController<Contract, ContractViewModel>
+    public class ContractController : BaseController<Contract, ContractDTO>
     {
-        public ContractController(TypographyContext context): 
-        base(
-            context, 
-            (context) => context.Contracts,
-            (contract) => contract.Number,
-            (context) => context.Contracts
-                                .Include(contract => contract.Customer)
-                                .Include(customer => customer.Orders)
-                                .ToArrayAsync()
-        ) {}
-
-        protected override Contract EntityFromViewModel(ContractViewModel viewModel, int? id = null)
-        {
-            return new Contract() {
-                Number = id,
-                CompletionDate = viewModel.CompletionDate,
-                RegistrationDate = viewModel.RegistrationDate,
-                CustomerId = viewModel.CustomerId
-            };
+        protected override Repository<Contract> Repository { get; init; }
+        public ContractController(TypographyContext context) {
+            Repository = new ContractRepository(context);
         }
 
-        protected override Contract UpdateEntity(Contract source, Contract incoming)
+
+        protected override Contract EntityFromDTO(ContractDTO dto, int? id = null)
         {
-            source.CustomerId = incoming.CustomerId;
-            source.CompletionDate = incoming.CompletionDate;
-            source.RegistrationDate = incoming.RegistrationDate;
-            return source;
+            return new Contract() {
+                Id = id,
+                CompletionDate = dto.CompletionDate ?? default,
+                RegistrationDate = dto.RegistrationDate,
+                CustomerId = dto.CustomerId ?? default
+            };
         }
     }
 }

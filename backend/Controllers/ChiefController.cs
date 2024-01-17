@@ -1,36 +1,30 @@
 using backend.Models;
 using backend.Database;
+using backend.Database.Repositories;
+using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ChiefController : BaseController<Chief, ChiefViewModel>
+    public class ChiefController : BaseController<Chief, ChiefDTO>
     {
-        public ChiefController(TypographyContext context): 
-        base(context, 
-        (context) => context.Chiefs,
-        (chief) => chief.Id,
-        (context) => context.Chiefs.Include(chief => chief.Workshops).ToArrayAsync()) {}
+        protected override Repository<Chief> Repository { get; init; }
 
-        protected override Chief EntityFromViewModel(ChiefViewModel viewModel, int? id = null)
+        public ChiefController(TypographyContext context) 
+        {
+            Repository = new ChiefRepository(context);
+        }
+
+        protected override Chief EntityFromDTO(ChiefDTO dto, int? id = null)
         {
             return new Chief() {
                 Id = id,
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
-                Patronymic = viewModel.Patronymic
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Patronymic = dto.Patronymic
             };
-        }
-
-        protected override Chief UpdateEntity(Chief source, Chief incoming)
-        {
-            source.LastName = incoming.LastName;
-            source.FirstName = incoming.FirstName;
-            source.Patronymic = incoming.Patronymic;
-            return source;
         }
     }
 }

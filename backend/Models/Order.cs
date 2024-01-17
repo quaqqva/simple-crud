@@ -1,18 +1,17 @@
 ﻿namespace backend.Models;
 
-public partial class OrderViewModel {
-    public int ProductQuantity { get; set; }
 
-    public int ProductCode { get; set; }
-
-    public int ContractNumber { get; set; }
-}
-
-public partial class Order: OrderViewModel
+public class Order: IIdentifiable
 {
     public int? Id { get; set; }
 
-    public virtual Contract Contract { get; set; } = null!;
+    public required int ProductQuantity { get; set; }
 
-    public virtual Product Product { get; set; } = null!;
+    public required int ProductCode { get; set; }
+
+    public required int ContractNumber { get; set; }
+
+    public virtual Contract? Contract { get; set; }
+
+    public virtual Product? Product { get; set; }
 }

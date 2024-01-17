@@ -1,20 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace backend.Models;
 
-namespace backend.Models;
-
-public partial class WorkshopViewModel {
-    public string Name { get; set; } = null!;
-
-    public string PhoneNumber { get; set; } = null!;
-
-    public int ChiefId { get; set; }
-}
-
-public partial class Workshop: WorkshopViewModel
+public class Workshop: IIdentifiable
 {
-    public int? Number { get; set; }
+    public int? Id { get; set; }
 
-    public virtual Chief Chief { get; set; } = null!;
+    public required string Name { get; set; }
 
-    public virtual ICollection<Product> Products { get; } = new List<Product>();
+    public required string PhoneNumber { get; set; }
+
+    public required int ChiefId { get; set; }
+
+    public virtual Chief? Chief { get; set; }
+
+    public virtual ICollection<Product>? Products { get; }
 }
