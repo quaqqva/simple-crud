@@ -1,4 +1,6 @@
-﻿namespace backend.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace backend.Entities;
 
 public partial class Contract: IIdentifiable
 {
@@ -6,6 +8,7 @@ public partial class Contract: IIdentifiable
 
     public required DateOnly CompletionDate { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public DateOnly? RegistrationDate { get; set; }
 
     public required int CustomerId { get; set; }

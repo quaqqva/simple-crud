@@ -25,6 +25,7 @@ builder.Services.AddControllers()
 .AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.WriteIndented = true;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 }).ConfigureApiBehaviorOptions(options => {
     options.InvalidModelStateResponseFactory = actionContext => {
         var modelState = actionContext.ModelState;

@@ -1,10 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace backend.DTOs;
 
 public class AddressDTO {
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required(ErrorMessage = "Address' country is required")]
     [MaxLength(45)]
     public required string Country { get; set; }

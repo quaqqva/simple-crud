@@ -12,6 +12,8 @@ public abstract class Repository<T> where T:class, IIdentifiable {
 
   protected abstract IQueryable<T> EntitiesDetails { get; }
 
+  public Task<int> Count { get => DbSet.CountAsync(); }
+
   public Repository(TypographyContext context) {
     _context = context;
   }
@@ -51,7 +53,7 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     return entity;
   }
 
-    public async Task Delete(int id) {
+  public async Task Delete(int id) {
     var entity = await Read(id);
     if (entity == null) throw new DbNotFoundException();
     try {
@@ -60,6 +62,5 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     } catch {
       throw new DbIntegrityException();
     }
-
   }
 }

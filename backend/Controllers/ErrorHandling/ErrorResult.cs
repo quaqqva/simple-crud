@@ -2,7 +2,7 @@ using System.Net;
 
 namespace backend.Controllers.ErrorHandling
 {
-    public class ErrorResult
+    public struct ErrorResult
     {
         public required HttpStatusCode Status { get; set; }
 

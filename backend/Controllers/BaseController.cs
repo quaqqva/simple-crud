@@ -15,6 +15,7 @@ namespace backend.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<T>>> Get(int? limit, int? offset) {
+            if (limit != null || offset != null) Response.Headers["X-Total-Count"] = (await Repository.Count).ToString();
             return await Repository.Read(limit, offset);
         }
 
