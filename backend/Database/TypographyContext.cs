@@ -1,5 +1,6 @@
 ﻿using backend.Entities;
 using Microsoft.EntityFrameworkCore;
+using MySql.EntityFrameworkCore.Extensions;
 
 namespace backend.Database;
 
@@ -31,9 +32,7 @@ public partial class TypographyContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .UseCollation("utf8mb3_general_ci")
-            .HasCharSet("utf8mb3");
+        MySQLModelBuilderExtensions.UseCollation(modelBuilder, "utf8mb3_general_ci").HasCharSet("utf8mb3");
 
         modelBuilder.Entity<Address>(entity =>
         {

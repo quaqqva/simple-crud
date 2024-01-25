@@ -3,6 +3,7 @@ using backend.Controllers.ErrorHandling;
 using backend.Database;
 using backend.Database.Exceptions;
 using backend.Entities;
+using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -14,9 +15,26 @@ namespace backend.Controllers
         protected abstract T EntityFromDTO(V dto, int? id = null);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<T>>> Get(int? limit, int? offset) {
+        public async Task<ActionResult<IEnumerable<T>>> Get
+        (
+        int? limit,
+        int? offset,
+        [FromQuery] string[] sortBy,
+        [FromQuery] string order = "ASC"
+        )
+        {
             if (limit != null || offset != null) Response.Headers["X-Total-Count"] = (await Repository.Count).ToString();
-            return await Repository.Read(limit, offset);
+            string[]? sortCriterias = sortBy.Length == 0 ? null : sortBy;
+            try {
+                return new ObjectResult(await Repository.Read(limit, offset, sortCriterias, SortOrder.FromValue(order)));
+            } catch(ArgumentException e) {
+                return new BadRequestObjectResult(new ErrorResult() {
+                    Status = HttpStatusCode.BadRequest,
+                    Errors = new() {
+                        ["Invalid parameter"] = [e.Message]
+                    }
+                });
+            }
         }
 
         [HttpGet("{id:int}")]
@@ -67,7 +85,7 @@ namespace backend.Controllers
             var result = new ErrorResult() {
                 Status = HttpStatusCode.UnprocessableEntity,
                 Errors = new Dictionary<string, IEnumerable<string>>() {
-                    { "IntegrityError", new string[] { e.Message } }
+                    ["IntegrityError"] = [e.Message]
                 }
             };
             return new UnprocessableEntityObjectResult(result);
@@ -77,7 +95,7 @@ namespace backend.Controllers
             var result = new ErrorResult() {
                 Status = HttpStatusCode.NotFound,
                 Errors = new Dictionary<string, IEnumerable<string>>() {
-                    { "NotFound", new string[] { e.Message } }
+                    ["NotFound"] = [e.Message]
                 }
               };
             return new NotFoundObjectResult(result);

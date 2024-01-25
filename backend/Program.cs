@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using backend.Database;
+using backend.Utilities.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -36,9 +37,8 @@ builder.Services.AddControllers()
             string errorText = errorEntry.Errors.First().ErrorMessage;
             string[] missingProperties = errorText.Split(':')[1].Split(',');
             foreach(string property in missingProperties) {
-                string trimmed = property.Trim();
-                string capitalized = char.ToUpper(trimmed[0]) + trimmed.Substring(1);
-                modelState.AddModelError(capitalized, "Property is missing");
+                string formattedProperty = property.Trim().ToCapitalized();
+                modelState.AddModelError(formattedProperty, "Property is missing");
             }
             modelState.Remove("$");
         }
@@ -58,7 +58,7 @@ builder.Services.AddSwaggerGen();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 string password = File.ReadAllText("/run/secrets/db-password");
 connection = connection.Replace("{password}", password); 
-builder.Services.AddDbContext<TypographyContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.0.34-mysql")));
+builder.Services.AddDbContext<TypographyContext>(options => options.UseMySQL(connection));
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
