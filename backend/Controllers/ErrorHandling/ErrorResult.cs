@@ -6,6 +6,6 @@ namespace backend.Controllers.ErrorHandling
     {
         public required HttpStatusCode Status { get; set; }
 
-        public required Dictionary<string, IEnumerable<string>> Errors { get; set; }
+        public required Dictionary<string, string> Errors { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace backend.Controllers
                 return new BadRequestObjectResult(new ErrorResult() {
                     Status = HttpStatusCode.BadRequest,
                     Errors = new() {
-                        ["Invalid parameter"] = [e.Message]
+                        ["Invalid parameter"] = e.Message
                     }
                 });
             }
@@ -84,8 +84,8 @@ namespace backend.Controllers
         private ActionResult IntegrityErrorObject(Exception e) {
             var result = new ErrorResult() {
                 Status = HttpStatusCode.UnprocessableEntity,
-                Errors = new Dictionary<string, IEnumerable<string>>() {
-                    ["IntegrityError"] = [e.Message]
+                Errors = new() {
+                    ["IntegrityError"] = e.Message
                 }
             };
             return new UnprocessableEntityObjectResult(result);
@@ -94,8 +94,8 @@ namespace backend.Controllers
         private ActionResult NotFoundObject(Exception e) {
             var result = new ErrorResult() {
                 Status = HttpStatusCode.NotFound,
-                Errors = new Dictionary<string, IEnumerable<string>>() {
-                    ["NotFound"] = [e.Message]
+                Errors = new() {
+                    ["NotFound"] = e.Message
                 }
               };
             return new NotFoundObjectResult(result);
