@@ -9,14 +9,12 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace backend.Database;
 
-public abstract class Repository<T> where T:class, IIdentifiable {
+public abstract class Repository<TEntity> where TEntity : class, IIdentifiable {
   protected TypographyContext _context;
 
-  protected abstract DbSet<T> DbSet { get; init; }
+  protected abstract DbSet<TEntity> DbSet { get; init; }
 
-  protected abstract IQueryable<T> EntitiesDetails { get; }
-
-  protected abstract Dictionary<string, Expression<Func<T, dynamic?>>> PropertyCallbacks { get; }
+  protected abstract IQueryable<TEntity> EntitiesDetails { get; }
 
   public Task<int> Count { get => DbSet.CountAsync(); }
 
@@ -24,9 +22,9 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     _context = context;
   }
 
-  public async Task<T> Create(T entity) {
+  public async Task<TEntity> Create(TEntity entity) {
     try {
-      EntityEntry<T> newEntityEntry = await DbSet.AddAsync(entity);
+      EntityEntry<TEntity> newEntityEntry = await DbSet.AddAsync(entity);
       await _context.SaveChangesAsync();
       return newEntityEntry.Entity;
     } catch (DbException) {
@@ -34,9 +32,9 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     }
   }
 
-  public async Task Update(int id, T incoming) {
+  public async Task Update(int id, TEntity incoming) {
     try {
-      T source = await Read(id);
+      TEntity source = await Read(id);
       incoming.Id = id;
       _context.Entry(source).CurrentValues.SetValues(incoming);
       await _context.SaveChangesAsync();
@@ -46,54 +44,47 @@ public abstract class Repository<T> where T:class, IIdentifiable {
     }
   }
 
-  public async Task<IEnumerable<T>> Read(int? limit, int? offset, string[]? sortCriterias, SortOrder? order) {
-    IQueryable<T> entities = DbSet.AsNoTracking();
+  public async Task<IEnumerable<TEntity>> Read
+  (
+  int? limit,
+  int? offset,
+  string[]? sortCriterias,
+  SortOrder? order,
+  string[]? fields
+  )
+  {
+    IQueryable<TEntity> entities = DbSet.AsNoTracking();
 
     sortCriterias ??= ["id"];
     order ??= SortOrder.Ascending;
-
-    var firstCriteriaExpression = GetPropertyExpression(sortCriterias[0]);
+    var firstCriteriaExpression = SelectGenerator.GeneratePropertiesExpression<TEntity, dynamic?>(sortCriterias[0]);
     entities = entities.OrderBy(firstCriteriaExpression, order);
-
     foreach(string criteria in sortCriterias.Skip(1)) {
-      var propertyExpression = GetPropertyExpression(criteria);
-      entities = ((IOrderedQueryable<T>)entities).ThenBy(propertyExpression, order);
+      var propertyExpression = SelectGenerator.GeneratePropertiesExpression<TEntity, dynamic?>(criteria);
+      entities = ((IOrderedQueryable<TEntity>)entities).ThenBy(propertyExpression, order);
     }
+
+    if (fields != null)
+      entities = entities.Select(SelectGenerator.GeneratePropertiesExpression<TEntity>(fields));
 
     if (offset != null) entities = entities.Skip(offset.Value);
     if (limit != null) entities = entities.Take(limit.Value);
     return await entities.ToArrayAsync();
   }
 
-  public async Task<T> Read(int id, bool withDetails = false) {
-    T? entity = await (withDetails ? EntitiesDetails : DbSet).FirstOrDefaultAsync((entity) => entity.Id == id);
+  public async Task<TEntity> Read(int id, bool withDetails = false) {
+    TEntity? entity = await (withDetails ? EntitiesDetails : DbSet).FirstOrDefaultAsync((entity) => entity.Id == id);
     if (entity == null) throw new DbNotFoundException();
     return entity;
   }
 
   public async Task Delete(int id) {
-    T entity = await Read(id);
+    TEntity entity = await Read(id);
     try {
       DbSet.Remove(entity);
       await _context.SaveChangesAsync();
     } catch {
       throw new DbIntegrityException();
-    }
-  }
-
-  /// <summary>
-  /// Property callback resolver for LINQ queries
-  /// Throws an exception if property not found
-  /// </summary>
-  /// <param name="name">Property name in camel case</param>
-  /// <returns>Property callback</returns>
-  private Expression<Func<T, dynamic?>> GetPropertyExpression(string name) {
-    if (name == "id") return (T entity) => entity.Id;
-    try {
-      var callback = PropertyCallbacks[name];
-      return callback;
-    } catch(KeyNotFoundException) {
-      throw new ArgumentException($"No such property in entity: '{name}'");
     }
   }
 }

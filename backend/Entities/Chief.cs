@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace backend.Entities;
+﻿namespace backend.Entities;
 
 public class Chief: IIdentifiable
 {
@@ -10,8 +8,7 @@ public class Chief: IIdentifiable
 
     public required string LastName { get; set; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string? Patronymic { get; set; }
 
-    public virtual ICollection<Workshop>? Workshops { get; }
+    public virtual ICollection<Workshop>? Workshops { get; init; }
 }

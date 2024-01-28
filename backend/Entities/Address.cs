@@ -12,5 +12,5 @@ public class Address: IIdentifiable
 
     public required string Building { get; set; }
     
-    public virtual ICollection<Customer>? Customers { get; }
+    public virtual ICollection<Customer>? Customers { get; init; }
 }

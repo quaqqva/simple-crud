@@ -4,10 +4,10 @@ namespace backend.Utilities.Extensions
 {
     public static class QueryableExtension
     {
-        public static IOrderedQueryable<T> OrderBy<T>
+        public static IOrderedQueryable<TKey> OrderBy<TKey, TResult>
         (
-        this IQueryable<T> source, 
-        Expression<Func<T, dynamic?>> expression,
+        this IQueryable<TKey> source, 
+        Expression<Func<TKey, TResult>> expression,
         SortOrder order
         )
 	    {
@@ -16,10 +16,10 @@ namespace backend.Utilities.Extensions
                    Queryable.OrderBy(source, expression);
 	    }
 
-	    public static IOrderedQueryable<T> ThenBy<T>
+	    public static IOrderedQueryable<TKey> ThenBy<TKey, TResult>
         (
-        this IOrderedQueryable<T> source,
-        Expression<Func<T, dynamic?>> expression,
+        this IOrderedQueryable<TKey> source,
+        Expression<Func<TKey, TResult>> expression,
         SortOrder order
         )
 	    {

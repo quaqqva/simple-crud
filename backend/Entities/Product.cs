@@ -10,7 +10,7 @@ public class Product: IIdentifiable
 
     public required int WorkshopNumber { get; set; }
     
-    public virtual ICollection<Order>? Orders { get; }
+    public virtual ICollection<Order>? Orders { get; init; }
 
-    public virtual Workshop? Workshop { get; set; }
+    public virtual Workshop? Workshop { get; init; }
 }

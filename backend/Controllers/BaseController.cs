@@ -20,13 +20,18 @@ namespace backend.Controllers
         int? limit,
         int? offset,
         [FromQuery] string[] sortBy,
+        [FromQuery] string[] fields,
         [FromQuery] string order = "ASC"
         )
         {
             if (limit != null || offset != null) Response.Headers["X-Total-Count"] = (await Repository.Count).ToString();
             string[]? sortCriterias = sortBy.Length == 0 ? null : sortBy;
+            string[]? parsedFields = fields.Length == 0 ? null
+                                     : fields.SelectMany((fieldsThroughCommas) => fieldsThroughCommas.Split(',')).ToArray();
             try {
-                return new ObjectResult(await Repository.Read(limit, offset, sortCriterias, SortOrder.FromValue(order)));
+                var sortOrder = SortOrder.FromValue(order);
+                var entities = await Repository.Read(limit, offset, sortCriterias, sortOrder, parsedFields);
+                return new ObjectResult(entities);
             } catch(ArgumentException e) {
                 return new BadRequestObjectResult(new ErrorResult() {
                     Status = HttpStatusCode.BadRequest,

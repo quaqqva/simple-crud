@@ -37,7 +37,7 @@ builder.Services.AddControllers()
             string errorText = errorEntry.Errors.First().ErrorMessage;
             string[] missingProperties = errorText.Split(':')[1].Split(',');
             foreach(string property in missingProperties) {
-                string formattedProperty = property.Trim().ToCapitalized();
+                string formattedProperty = property.Trim().ToPascalCase();
                 modelState.AddModelError(formattedProperty, "Property is missing");
             }
             modelState.Remove("$");
