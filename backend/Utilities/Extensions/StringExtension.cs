@@ -15,5 +15,15 @@ namespace backend.Utilities.Extensions
         {
             return Regex.Replace(str, @"\b\p{Ll}", match => match.Value.ToUpper());
         }
+
+        /// <summary>
+        /// Converts PascalCase string to camelCase
+        /// </summary>
+        /// <param name="str">String in PascalCase</param>
+        /// <returns>The same string in camelCase</returns>
+        public static string ToCamelCase(this string str)
+        {
+            return char.ToLowerInvariant(str[0]) + str[1..];
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using backend.Database.Exceptions;
 using backend.Entities;
 using backend.Utilities;
+using backend.Utilities.Expressions;
 using backend.Utilities.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -50,22 +51,24 @@ public abstract class Repository<TEntity> where TEntity : class, IIdentifiable {
   int? offset,
   string[]? sortCriterias,
   SortOrder? order,
-  string[]? fields
+  string[]? fields,
+  string filters
   )
   {
-    IQueryable<TEntity> entities = DbSet.AsNoTracking();
+    Expression<Func<TEntity, bool>> filterExpression = FilterExpressionGenerator<TEntity>.GenerateFilterExpression(filters);
+    IQueryable<TEntity> entities = DbSet.AsNoTracking().Where(filterExpression);
 
     sortCriterias ??= ["id"];
     order ??= SortOrder.Ascending;
-    var firstCriteriaExpression = SelectGenerator.GeneratePropertiesExpression<TEntity, dynamic?>(sortCriterias[0]);
+    var firstCriteriaExpression = SelectExpressionGenerator<TEntity>.GenerateSelectExpression<dynamic?>(sortCriterias[0]);
     entities = entities.OrderBy(firstCriteriaExpression, order);
     foreach(string criteria in sortCriterias.Skip(1)) {
-      var propertyExpression = SelectGenerator.GeneratePropertiesExpression<TEntity, dynamic?>(criteria);
+      var propertyExpression = SelectExpressionGenerator<TEntity>.GenerateSelectExpression<dynamic?>(criteria);
       entities = ((IOrderedQueryable<TEntity>)entities).ThenBy(propertyExpression, order);
     }
 
     if (fields != null)
-      entities = entities.Select(SelectGenerator.GeneratePropertiesExpression<TEntity>(fields));
+      entities = entities.Select(SelectExpressionGenerator<TEntity>.GenerateSelectExpression(fields));
 
     if (offset != null) entities = entities.Skip(offset.Value);
     if (limit != null) entities = entities.Take(limit.Value);
