@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Workshop : IIdentifiable
+public record Workshop : IIdentifiable
 {
     public int? Id { get; set; }
 

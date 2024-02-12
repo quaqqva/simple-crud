@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs;
 
-public class ContractDTO
+public record ContractDTO
 {
     [Required(ErrorMessage = "Contract's completion date must be specified")]
     public required DateOnly CompletionDate { get; set; }

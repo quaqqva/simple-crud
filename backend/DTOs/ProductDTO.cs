@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs;
 
-public class ProductDTO
+public record ProductDTO
 {
     [Required(ErrorMessage = "Product's name is required")]
     [MaxLength(45)]

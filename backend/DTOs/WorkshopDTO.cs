@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs;
 
-public class WorkshopDTO
+public record WorkshopDTO
 {
     [Required]
     [MaxLength(90)]

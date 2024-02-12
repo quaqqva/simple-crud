@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Product : IIdentifiable
+public record Product : IIdentifiable
 {
     public int? Id { get; set; }
 

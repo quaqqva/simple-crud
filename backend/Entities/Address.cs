@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Address : IIdentifiable
+public record Address : IIdentifiable
 {
     public int? Id { get; set; }
 

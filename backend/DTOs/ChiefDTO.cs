@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs;
 
-public class ChiefDTO
+public record ChiefDTO
 {
     [Required(ErrorMessage = "Chief's first name is required")]
     [MaxLength(45)]
