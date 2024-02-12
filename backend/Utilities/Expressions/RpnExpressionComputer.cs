@@ -87,7 +87,7 @@ namespace backend.Utilities.Expressions
                     }
                 }
                 else {
-                    var matches = operandRegex.Matches(expression[i..]);
+                    MatchCollection matches = operandRegex.Matches(expression[i..]);
                     if (matches.Count == 0) continue;
 
                     string simpleExpression = matches.MaxBy((match) => match.Length)!.Value;

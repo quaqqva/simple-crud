@@ -16,13 +16,13 @@ namespace backend.Utilities.Expressions
             int? prevIndex = null;
             (Expression, Type)? result = null;
             foreach(Match propertyMatch in Regex.Matches(properties, propertyRegex).Cast<Match>()) {
-                var property = ParseSimpleProperty(propertyMatch.Value, parameter);
+                (Expression, Type) property = ParseSimpleProperty(propertyMatch.Value, parameter);
                 result ??= property;
 
                 if (prevIndex != null) {
                     var operatorName = properties[prevIndex.Value..propertyMatch.Index];
-                    var currentPropertyExpression = result.Value.Item1;
-                    var incomingExpression = property.Item1;
+                    Expression currentPropertyExpression = result.Value.Item1;
+                    Expression incomingExpression = property.Item1;
 
                     Expression newExpression = operatorName.Trim() switch {
                         "+" => Expression.Add(
@@ -53,23 +53,24 @@ namespace backend.Utilities.Expressions
             IEnumerable<string> references = propertiesReference.Split('.').Select((property) => property.ToPascalCase());
             (Expression, Type) initialValues = (parameter, typeof(TArgument));
             return references
-                   .Aggregate(initialValues, 
-                              (accum, reference) => {
-                                  var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
-                                  PropertyInfo propertyInfo = accum.Item2.GetProperty(reference, bindingFlags) 
-                                              ?? throw new ArgumentException(
-                                              $"Could not find property '{propertiesReference}' on type '{typeof(TArgument).Name.ToCamelCase()}'");
-                                  Type propertyType = propertyInfo.PropertyType; 
-                                  Expression result = Expression.MakeMemberAccess(accum.Item1, propertyInfo);
-
-                                  var possibleUnderlyingType = Nullable.GetUnderlyingType(propertyType);
-                                  if (possibleUnderlyingType != null) {
-                                      result = Expression.Property(result, "Value");
-                                      propertyType = possibleUnderlyingType;
-                                  }
-                                  return (result, propertyType);
-                              }
-                             );
+                   .Aggregate(
+                        initialValues, 
+                        (accum, reference) => {
+                            var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+                            PropertyInfo propertyInfo = accum.Item2.GetProperty(reference, bindingFlags) 
+                                        ?? throw new ArgumentException(
+                                        $"Could not find property '{propertiesReference}' on type '{typeof(TArgument).Name.ToCamelCase()}'");
+                            Type propertyType = propertyInfo.PropertyType; 
+                            Expression result = Expression.MakeMemberAccess(accum.Item1, propertyInfo);
+    
+                            var possibleUnderlyingType = Nullable.GetUnderlyingType(propertyType);
+                            if (possibleUnderlyingType != null) {
+                                result = Expression.Property(result, "Value");
+                                propertyType = possibleUnderlyingType;
+                            }
+                            return (result, propertyType);
+                        }
+                    );
         }
     }
 }

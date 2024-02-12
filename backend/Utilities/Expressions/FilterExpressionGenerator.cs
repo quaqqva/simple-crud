@@ -44,12 +44,13 @@ namespace backend.Utilities.Expressions
                 var propertyMatch = Regex.Match(simpleExpression, propertiesRegex);
                 propertyName = propertyMatch.Value;
 
-                var operatorAndValue = simpleExpression[(propertyMatch.Index + propertyMatch.Length)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string[] operatorAndValue = simpleExpression[(propertyMatch.Index + propertyMatch.Length)..]
+                                       .Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 string operatorName = operatorAndValue[0].ToPascalCase();
                 value = String.Join(' ', operatorAndValue[1..]);
 
-                var (propertyAccess, propertyType) = PropertyExpressionGenerator<TArgument>
-                                                    .ParseComplexProperty(propertyName, parameter);
+                (Expression propertyAccess, Type propertyType) = PropertyExpressionGenerator<TArgument>
+                                                                .ParseComplexProperty(propertyName, parameter);
 
                 if (value.StartsWith("'") && value.EndsWith("'")) value = value[1..^1];
                 var convertedValue = propertyType == typeof(DateOnly) ? 

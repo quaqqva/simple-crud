@@ -19,13 +19,14 @@ namespace backend.Utilities.Expressions
             var parameter = Expression.Parameter(typeof(TObject), "field");
             var returnValue = Expression.New(typeof(TObject));
 
-            var bindings = fields.Select(field => field.Trim().ToPascalCase())
-                                 .Select(field => {
-                PropertyInfo propertyInfo = typeof(TObject).GetProperty(field) 
+            IEnumerable<MemberBinding> bindings = 
+                                  fields.Select(field => field.Trim().ToPascalCase())
+                                        .Select(field => {
+                                            PropertyInfo propertyInfo = typeof(TObject).GetProperty(field) 
                                             ?? throw new ArgumentException($"Property '{field.ToCamelCase()}' is not valid");
-                var xOriginal = Expression.Property(parameter, propertyInfo);
-                return Expression.Bind(propertyInfo, xOriginal);
-            });
+                                            var xOriginal = Expression.Property(parameter, propertyInfo);
+                                            return Expression.Bind(propertyInfo, xOriginal);
+                                        });
 
             var xInit = Expression.MemberInit(returnValue, bindings);    
             var lambda = Expression.Lambda<Func<TObject, TObject>>(xInit, parameter);    
