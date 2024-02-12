@@ -49,7 +49,7 @@ builder
                     string[] missingProperties = errorText.Split(':')[1].Split(',');
                     foreach (string property in missingProperties)
                     {
-                        string formattedProperty = property.Trim().ToPascalCase();
+                        string formattedProperty = property.Trim();
                         modelState.AddModelError(formattedProperty, "Property is missing");
                     }
                     modelState.Remove("$");
