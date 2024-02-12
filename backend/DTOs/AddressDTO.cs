@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.DTOs;
+namespace backend.Dtos;
 
-public record AddressDTO
+public record AddressDto
 {
     [Required(ErrorMessage = "Address' country is required")]
     [MaxLength(45)]

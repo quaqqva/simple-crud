@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.DTOs;
+namespace backend.Dtos;
 
-public record WorkshopDTO
+public record WorkshopDto
 {
     [Required]
     [MaxLength(90)]

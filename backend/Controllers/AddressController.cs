@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Repositories;
-using backend.DTOs;
+using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("addresses")]
-    public class AddressController : BaseController<Address, AddressDTO>
+    public class AddressController : BaseController<Address, AddressDto>
     {
         protected override Repository<Address> Repository { get; init; }
 
@@ -17,7 +17,7 @@ namespace backend.Controllers
             Repository = new AddressRepository(context);
         }
 
-        protected override Address EntityFromDTO(AddressDTO dto, int? id = null)
+        protected override Address EntityFromDto(AddressDto dto, int? id = null)
         {
             return new Address()
             {

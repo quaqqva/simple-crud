@@ -13,7 +13,7 @@ namespace backend.Controllers
     {
         protected abstract Repository<TEntity> Repository { get; init; }
 
-        protected abstract TEntity EntityFromDTO(TDto dto, int? id = null);
+        protected abstract TEntity EntityFromDto(TDto dto, int? id = null);
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> Get(
@@ -82,7 +82,7 @@ namespace backend.Controllers
         {
             try
             {
-                var entity = EntityFromDTO(dto);
+                var entity = EntityFromDto(dto);
                 return new ObjectResult(await Repository.Create(entity));
             }
             catch (DbIntegrityException e)
@@ -94,7 +94,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TEntity>> Put(int id, [FromBody] TDto dto)
         {
-            var entity = EntityFromDTO(dto);
+            var entity = EntityFromDto(dto);
             try
             {
                 await Repository.Update(id, entity);

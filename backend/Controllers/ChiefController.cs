@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Repositories;
-using backend.DTOs;
+using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("chiefs")]
-    public class ChiefController : BaseController<Chief, ChiefDTO>
+    public class ChiefController : BaseController<Chief, ChiefDto>
     {
         protected override Repository<Chief> Repository { get; init; }
 
@@ -17,7 +17,7 @@ namespace backend.Controllers
             Repository = new ChiefRepository(context);
         }
 
-        protected override Chief EntityFromDTO(ChiefDTO dto, int? id = null)
+        protected override Chief EntityFromDto(ChiefDto dto, int? id = null)
         {
             return new Chief()
             {

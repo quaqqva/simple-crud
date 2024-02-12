@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.DTOs;
+namespace backend.Dtos;
 
-public record ProductDTO
+public record ProductDto
 {
     [Required(ErrorMessage = "Product's name is required")]
     [MaxLength(45)]

@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Repositories;
-using backend.DTOs;
+using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("workshops")]
-    public class WorkshopController : BaseController<Workshop, WorkshopDTO>
+    public class WorkshopController : BaseController<Workshop, WorkshopDto>
     {
         protected override Repository<Workshop> Repository { get; init; }
 
@@ -17,7 +17,7 @@ namespace backend.Controllers
             Repository = new WorkshopRepository(context);
         }
 
-        protected override Workshop EntityFromDTO(WorkshopDTO dto, int? id = null)
+        protected override Workshop EntityFromDto(WorkshopDto dto, int? id = null)
         {
             return new Workshop()
             {

@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Repositories;
-using backend.DTOs;
+using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("orders")]
-    public class OrderController : BaseController<Order, OrderDTO>
+    public class OrderController : BaseController<Order, OrderDto>
     {
         protected override Repository<Order> Repository { get; init; }
 
@@ -17,7 +17,7 @@ namespace backend.Controllers
             Repository = new OrderRepository(context);
         }
 
-        protected override Order EntityFromDTO(OrderDTO dto, int? id = null)
+        protected override Order EntityFromDto(OrderDto dto, int? id = null)
         {
             return new Order()
             {

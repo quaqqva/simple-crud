@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.DTOs;
+namespace backend.Dtos;
 
-public record ContractDTO
+public record ContractDto
 {
     [Required(ErrorMessage = "Contract's completion date must be specified")]
     public required DateOnly CompletionDate { get; set; }

@@ -1,6 +1,6 @@
 using backend.Database;
 using backend.Database.Repositories;
-using backend.DTOs;
+using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("products")]
-    public class ProductController : BaseController<Product, ProductDTO>
+    public class ProductController : BaseController<Product, ProductDto>
     {
         protected override Repository<Product> Repository { get; init; }
 
@@ -17,7 +17,7 @@ namespace backend.Controllers
             Repository = new ProductRepository(context);
         }
 
-        protected override Product EntityFromDTO(ProductDTO dto, int? id = null)
+        protected override Product EntityFromDto(ProductDto dto, int? id = null)
         {
             return new Product()
             {

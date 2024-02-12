@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.DTOs;
+namespace backend.Dtos;
 
-public record OrderDTO
+public record OrderDto
 {
     [Required(ErrorMessage = "Order's product quantity must be specified")]
     public required int ProductQuantity { get; set; }
