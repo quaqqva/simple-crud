@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("workshops")]
     public class WorkshopController : BaseController<Workshop, WorkshopDTO>
     {
         protected override Repository<Workshop> Repository { get; init; }

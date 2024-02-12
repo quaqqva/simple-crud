@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("addresses")]
     public class AddressController : BaseController<Address, AddressDTO>
     {
         protected override Repository<Address> Repository { get; init; }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("chiefs")]
     public class ChiefController : BaseController<Chief, ChiefDTO>
     {
         protected override Repository<Chief> Repository { get; init; }

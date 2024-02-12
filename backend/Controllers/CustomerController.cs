@@ -7,7 +7,7 @@ using backend.Database.Repositories;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("customers")]
     public class CustomerController : BaseController<Customer, CustomerDTO>
     {
         protected override Repository<Customer> Repository { get; init; }

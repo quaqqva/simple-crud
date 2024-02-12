@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("orders")]
     public class OrderController : BaseController<Order, OrderDTO>
     {
         protected override Repository<Order> Repository { get; init; }

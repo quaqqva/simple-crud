@@ -74,8 +74,7 @@ namespace backend.Utilities.Expressions
             catch(IndexOutOfRangeException) {
                 throw new ArgumentException("Filter expressions should include property info, operator and value, separated by space");
             }
-            catch(InvalidOperationException e) {
-                Console.WriteLine(e.Message);
+            catch(InvalidOperationException) {
                 throw new ArgumentException(
                     $"Operation '{simpleExpression}' can't be done because of unmatched types or such operation is not supported for these properties"
                 );
