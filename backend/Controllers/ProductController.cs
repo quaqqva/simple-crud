@@ -1,7 +1,7 @@
-using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -19,7 +19,8 @@ namespace backend.Controllers
 
         protected override Product EntityFromDTO(ProductDTO dto, int? id = null)
         {
-            return new Product() {
+            return new Product()
+            {
                 Id = id,
                 Name = dto.Name,
                 WorkshopNumber = dto.WorkshopNumber,

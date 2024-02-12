@@ -1,7 +1,7 @@
-using backend.Entities;
-using backend.DTOs;
 using backend.Database;
 using backend.Database.Repositories;
+using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -12,13 +12,15 @@ namespace backend.Controllers
     {
         protected override Repository<Address> Repository { get; init; }
 
-        public AddressController(TypographyContext context) {
+        public AddressController(TypographyContext context)
+        {
             Repository = new AddressRepository(context);
         }
 
         protected override Address EntityFromDTO(AddressDTO dto, int? id = null)
         {
-            return new Address() {
+            return new Address()
+            {
                 Id = id,
                 Country = dto.Country,
                 City = dto.City,

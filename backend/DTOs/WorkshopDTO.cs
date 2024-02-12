@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs;
 
-public class WorkshopDTO {
+public class WorkshopDTO
+{
     [Required]
     [MaxLength(90)]
     public required string Name { get; set; }

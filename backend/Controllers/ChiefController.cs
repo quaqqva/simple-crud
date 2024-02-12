@@ -1,7 +1,7 @@
-using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -12,14 +12,15 @@ namespace backend.Controllers
     {
         protected override Repository<Chief> Repository { get; init; }
 
-        public ChiefController(TypographyContext context) 
+        public ChiefController(TypographyContext context)
         {
             Repository = new ChiefRepository(context);
         }
 
         protected override Chief EntityFromDTO(ChiefDTO dto, int? id = null)
         {
-            return new Chief() {
+            return new Chief()
+            {
                 Id = id,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,

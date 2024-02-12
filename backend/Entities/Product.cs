@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Product: IIdentifiable
+public class Product : IIdentifiable
 {
     public int? Id { get; set; }
 
@@ -9,7 +9,7 @@ public class Product: IIdentifiable
     public required int Price { get; set; }
 
     public required int WorkshopNumber { get; set; }
-    
+
     public virtual ICollection<Order>? Orders { get; init; }
 
     public virtual Workshop? Workshop { get; init; }

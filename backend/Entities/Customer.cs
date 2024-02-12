@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Customer: IIdentifiable
+public class Customer : IIdentifiable
 {
     public int? Id { get; set; }
 

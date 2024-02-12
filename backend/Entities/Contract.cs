@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public partial class Contract: IIdentifiable
+public partial class Contract : IIdentifiable
 {
     public int? Id { get; set; }
 

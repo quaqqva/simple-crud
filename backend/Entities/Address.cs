@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Address: IIdentifiable
+public class Address : IIdentifiable
 {
     public int? Id { get; set; }
 
@@ -11,6 +11,6 @@ public class Address: IIdentifiable
     public required string Street { get; set; }
 
     public required string Building { get; set; }
-    
+
     public virtual ICollection<Customer>? Customers { get; init; }
 }

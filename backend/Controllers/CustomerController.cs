@@ -1,8 +1,8 @@
-using backend.Entities;
 using backend.Database;
-using Microsoft.AspNetCore.Mvc;
-using backend.DTOs;
 using backend.Database.Repositories;
+using backend.DTOs;
+using backend.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
@@ -11,6 +11,7 @@ namespace backend.Controllers
     public class CustomerController : BaseController<Customer, CustomerDTO>
     {
         protected override Repository<Customer> Repository { get; init; }
+
         public CustomerController(TypographyContext context)
         {
             Repository = new CustomerRepository(context);
@@ -18,7 +19,8 @@ namespace backend.Controllers
 
         protected override Customer EntityFromDTO(CustomerDTO dto, int? id = null)
         {
-            return new Customer() {
+            return new Customer()
+            {
                 Id = id,
                 Name = dto.Name,
                 AddressId = dto.AddressId

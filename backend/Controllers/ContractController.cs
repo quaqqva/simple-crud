@@ -1,7 +1,7 @@
-using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -11,14 +11,16 @@ namespace backend.Controllers
     public class ContractController : BaseController<Contract, ContractDTO>
     {
         protected override Repository<Contract> Repository { get; init; }
-        public ContractController(TypographyContext context) {
+
+        public ContractController(TypographyContext context)
+        {
             Repository = new ContractRepository(context);
         }
 
-
         protected override Contract EntityFromDTO(ContractDTO dto, int? id = null)
         {
-            return new Contract() {
+            return new Contract()
+            {
                 Id = id,
                 CompletionDate = dto.CompletionDate,
                 RegistrationDate = dto.RegistrationDate,

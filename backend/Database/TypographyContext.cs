@@ -6,14 +6,10 @@ namespace backend.Database;
 
 public partial class TypographyContext : DbContext
 {
-    public TypographyContext()
-    {
-    }
+    public TypographyContext() { }
 
     public TypographyContext(DbContextOptions<TypographyContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Address> Addresses { get; set; }
 
@@ -29,10 +25,11 @@ public partial class TypographyContext : DbContext
 
     public virtual DbSet<Workshop> Workshops { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        MySQLModelBuilderExtensions.UseCollation(modelBuilder, "utf8mb3_general_ci").HasCharSet("utf8mb3");
+        MySQLModelBuilderExtensions
+            .UseCollation(modelBuilder, "utf8mb3_general_ci")
+            .HasCharSet("utf8mb3");
 
         modelBuilder.Entity<Address>(entity =>
         {
@@ -72,7 +69,9 @@ public partial class TypographyContext : DbContext
             entity.Property(e => e.Id).HasColumnName("Number");
             entity.Property(e => e.CustomerId).HasColumnName("Customer_ID");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Contracts)
+            entity
+                .HasOne(d => d.Customer)
+                .WithMany(p => p.Contracts)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Contract_Customer1");
@@ -90,7 +89,9 @@ public partial class TypographyContext : DbContext
             entity.Property(e => e.AddressId).HasColumnName("Address_ID");
             entity.Property(e => e.Name).HasMaxLength(45);
 
-            entity.HasOne(d => d.Address).WithMany(p => p.Customers)
+            entity
+                .HasOne(d => d.Address)
+                .WithMany(p => p.Customers)
                 .HasForeignKey(d => d.AddressId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Customer_Address1");
@@ -110,12 +111,16 @@ public partial class TypographyContext : DbContext
             entity.Property(e => e.ContractNumber).HasColumnName("Contract_Number");
             entity.Property(e => e.ProductCode).HasColumnName("Product_Code");
 
-            entity.HasOne(d => d.Contract).WithMany(p => p.Orders)
+            entity
+                .HasOne(d => d.Contract)
+                .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ContractNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Order_Contract1");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.Orders)
+            entity
+                .HasOne(d => d.Product)
+                .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ProductCode)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Order_Product1");
@@ -133,7 +138,9 @@ public partial class TypographyContext : DbContext
             entity.Property(e => e.Id).HasColumnName("Code");
             entity.Property(e => e.WorkshopNumber).HasColumnName("Workshop_Number");
 
-            entity.HasOne(d => d.Workshop).WithMany(p => p.Products)
+            entity
+                .HasOne(d => d.Workshop)
+                .WithMany(p => p.Products)
                 .HasForeignKey(d => d.WorkshopNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Product_Workshop1");
@@ -154,7 +161,9 @@ public partial class TypographyContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(90);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
 
-            entity.HasOne(d => d.Chief).WithMany(p => p.Workshops)
+            entity
+                .HasOne(d => d.Chief)
+                .WithMany(p => p.Workshops)
                 .HasForeignKey(d => d.ChiefId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Workshop_Chief");

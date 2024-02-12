@@ -1,7 +1,7 @@
-using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -19,7 +19,8 @@ namespace backend.Controllers
 
         protected override Order EntityFromDTO(OrderDTO dto, int? id = null)
         {
-            return new Order() {
+            return new Order()
+            {
                 Id = id,
                 ProductQuantity = dto.ProductQuantity,
                 ProductCode = dto.ProductCode,

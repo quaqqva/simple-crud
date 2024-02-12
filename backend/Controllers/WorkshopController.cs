@@ -1,7 +1,7 @@
-using backend.Entities;
 using backend.Database;
 using backend.Database.Repositories;
 using backend.DTOs;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -19,7 +19,8 @@ namespace backend.Controllers
 
         protected override Workshop EntityFromDTO(WorkshopDTO dto, int? id = null)
         {
-            return new Workshop() {
+            return new Workshop()
+            {
                 Id = id,
                 Name = dto.Name,
                 PhoneNumber = dto.PhoneNumber,

@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Order: IIdentifiable
+public class Order : IIdentifiable
 {
     public int? Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace backend.Entities;
 
-public class Chief: IIdentifiable
+public class Chief : IIdentifiable
 {
     public int? Id { get; set; }
 
