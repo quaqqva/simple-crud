@@ -23,8 +23,8 @@ namespace backend.Controllers
             {
                 Id = id,
                 ProductQuantity = dto.ProductQuantity,
-                ProductCode = dto.ProductCode,
-                ContractNumber = dto.ContractNumber
+                ProductId = dto.ProductId,
+                ContractId = dto.ContractId
             };
         }
     }

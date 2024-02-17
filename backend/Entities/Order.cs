@@ -6,9 +6,9 @@ public record Order : IIdentifiable
 
     public required int ProductQuantity { get; set; }
 
-    public required int ProductCode { get; set; }
+    public required int ProductId { get; set; }
 
-    public required int ContractNumber { get; set; }
+    public required int ContractId { get; set; }
 
     public virtual Contract? Contract { get; init; }
 

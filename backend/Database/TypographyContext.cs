@@ -103,25 +103,25 @@ public partial class TypographyContext : DbContext
 
             entity.ToTable("Order");
 
-            entity.HasIndex(e => e.ContractNumber, "fk_Order_Contract1_idx");
+            entity.HasIndex(e => e.ContractId, "fk_Order_Contract1_idx");
 
-            entity.HasIndex(e => e.ProductCode, "fk_Order_Product1_idx");
+            entity.HasIndex(e => e.ProductId, "fk_Order_Product1_idx");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.ContractNumber).HasColumnName("Contract_Number");
-            entity.Property(e => e.ProductCode).HasColumnName("Product_Code");
+            entity.Property(e => e.ContractId).HasColumnName("Contract_Number");
+            entity.Property(e => e.ProductId).HasColumnName("Product_Code");
 
             entity
                 .HasOne(d => d.Contract)
                 .WithMany(p => p.Orders)
-                .HasForeignKey(d => d.ContractNumber)
+                .HasForeignKey(d => d.ContractId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Order_Contract1");
 
             entity
                 .HasOne(d => d.Product)
                 .WithMany(p => p.Orders)
-                .HasForeignKey(d => d.ProductCode)
+                .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Order_Product1");
         });
@@ -132,16 +132,16 @@ public partial class TypographyContext : DbContext
 
             entity.ToTable("Product");
 
-            entity.HasIndex(e => e.WorkshopNumber, "fk_Product_Workshop1_idx");
+            entity.HasIndex(e => e.WorkshopId, "fk_Product_Workshop1_idx");
 
             entity.Property(e => e.Name).HasMaxLength(45);
             entity.Property(e => e.Id).HasColumnName("Code");
-            entity.Property(e => e.WorkshopNumber).HasColumnName("Workshop_Number");
+            entity.Property(e => e.WorkshopId).HasColumnName("Workshop_Number");
 
             entity
                 .HasOne(d => d.Workshop)
                 .WithMany(p => p.Products)
-                .HasForeignKey(d => d.WorkshopNumber)
+                .HasForeignKey(d => d.WorkshopId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Product_Workshop1");
         });
@@ -152,7 +152,7 @@ public partial class TypographyContext : DbContext
 
             entity.ToTable("Workshop");
 
-            entity.HasIndex(e => e.Id, "WorkshopNumber_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.Id, "WorkshopId_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.ChiefId, "fk_Workshop_Chief_idx");
 

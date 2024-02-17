@@ -23,7 +23,7 @@ namespace backend.Controllers
             {
                 Id = id,
                 Name = dto.Name,
-                WorkshopNumber = dto.WorkshopNumber,
+                WorkshopId = dto.WorkshopId,
                 Price = dto.Price
             };
         }

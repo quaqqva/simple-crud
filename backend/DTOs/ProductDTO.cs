@@ -11,6 +11,6 @@ public record ProductDto
     [Required(ErrorMessage = "Product's price is required")]
     public required int Price { get; set; }
 
-    [Required(ErrorMessage = "Product's workshop number is required")]
-    public required int WorkshopNumber { get; set; }
+    [Required(ErrorMessage = "Product's workshop id is required")]
+    public required int WorkshopId { get; set; }
 }

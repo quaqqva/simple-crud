@@ -8,7 +8,7 @@ public record Product : IIdentifiable
 
     public required int Price { get; set; }
 
-    public required int WorkshopNumber { get; set; }
+    public required int WorkshopId { get; set; }
 
     public virtual ICollection<Order>? Orders { get; init; }
 
