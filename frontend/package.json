@@ -9,7 +9,16 @@
     "test": "ng test",
     "lint": "ng lint",
     "format": "prettier --write \"**/*.{js,json,css,scss,less,md,ts,html,component.html}\"",
-    "prepare": "cd .. && husky install"
+    "prepare": "cd .. && husky install",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js, ts}": [
+      "ng lint"
+    ],
+    "*.{js,json,css,scss,less,md,ts,html,component.html}": [
+      "prettier --write"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -58,6 +67,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.1.1",
     "typescript": "~5.2.2"
   }
