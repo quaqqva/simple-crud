@@ -1,19 +1,6 @@
 version: '3.1'
 
 services:
-  frontend:
-    build:
-      context: frontend
-
-  backend:
-    build:
-      context: backend
-    secrets:
-      - db-password
-    depends_on:
-      db:
-        condition: service_healthy
-  
   db:
     build: db/
     command: --default-authentication-plugin=caching_sha2_password
@@ -27,6 +14,19 @@ services:
       - db-password
     environment:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+
+  backend:
+    build:
+      context: backend
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: frontend
 
 secrets:
   db-password:
