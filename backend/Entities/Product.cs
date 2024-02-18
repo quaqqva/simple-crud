@@ -1,4 +1,6 @@
-﻿namespace backend.Entities;
+﻿using System.ComponentModel;
+
+namespace backend.Entities;
 
 public record Product : IIdentifiable
 {
@@ -6,7 +8,8 @@ public record Product : IIdentifiable
 
     public required string Name { get; set; }
 
-    public required int Price { get; set; }
+    [DefaultValue(-1)]
+    public required int Price { get; set; } = -1;
 
     public required int WorkshopId { get; set; }
 

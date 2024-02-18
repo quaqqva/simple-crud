@@ -31,7 +31,7 @@ builder
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             options.JsonSerializerOptions.WriteIndented = true;
             options.JsonSerializerOptions.DefaultIgnoreCondition =
-                JsonIgnoreCondition.WhenWritingNull;
+                JsonIgnoreCondition.WhenWritingDefault;
         }
     )
     .ConfigureApiBehaviorOptions(
@@ -74,7 +74,9 @@ builder.Services.AddSwaggerGen();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 string password = File.ReadAllText("/run/secrets/db-password");
 connection = connection.Replace("{password}", password);
-builder.Services.AddDbContext<TypographyContext>(options => options.UseMySQL(connection));
+builder.Services.AddDbContext<TypographyContext>(
+    options => options.UseMySql(connection, new MySqlServerVersion(new Version(8, 2, 0)))
+);
 
 var app = builder.Build();
 
