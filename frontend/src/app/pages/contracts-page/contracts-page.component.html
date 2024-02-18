@@ -33,7 +33,7 @@
     <tbody tuiTbody [data]="items">
       <tr tuiTr *ngFor="let item of shownItems">
         <td *tuiCell="'ID'" tuiTd>
-          {{ item.number }}
+          {{ item.id }}
         </td>
         <td *tuiCell="'Дата выполнения'" tuiTd>
           {{ item.completionDate | date }}
@@ -118,7 +118,7 @@
     <h2 class="entity-details__title">Подробности</h2>
     <div class="entity-value">
       <span class="entity-field-name">ID</span>
-      <span class="entity-field-value">{{ currentItem?.number }}</span>
+      <span class="entity-field-value">{{ currentItem?.id }}</span>
     </div>
     <div class="entity-value">
       <span class="entity-field-name">Дата выполнения</span>

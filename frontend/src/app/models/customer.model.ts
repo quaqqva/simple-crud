@@ -3,7 +3,7 @@ import { Address } from './address.model';
 import { Contract } from './contract.model';
 
 export type Customer = {
-  id?: number;
+  id: number;
   name: string;
   addressId: number;
   address: Address;

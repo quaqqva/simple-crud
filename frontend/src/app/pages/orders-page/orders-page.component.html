@@ -36,10 +36,10 @@
           {{ item.id }}
         </td>
         <td *tuiCell="'Номер контракта'" tuiTd>
-          {{ item.contractNumber }}
+          {{ item.id }}
         </td>
         <td *tuiCell="'Код продукта'" tuiTd>
-          {{ item.productCode }}
+          {{ item.productId }}
         </td>
         <td *tuiCell="'Количество продукта'" tuiTd>
           {{ item.productQuantity }}
@@ -92,8 +92,8 @@
       >ID продукта
       <input
         tuiInput
-        formControlName="productCode"
-        [ngModel]="editedItem?.productCode"
+        formControlName="productId"
+        [ngModel]="editedItem?.productId"
       />
     </label>
     <label for=""
@@ -108,8 +108,8 @@
       >ID контракта
       <input
         tuiInput
-        formControlName="contractNumber"
-        [ngModel]="editedItem?.contractNumber"
+        formControlName="contractId"
+        [ngModel]="editedItem?.contractId"
       />
     </label>
     <button type="button" (click)="this.form.reset()">Очистить</button>
@@ -132,7 +132,7 @@
       <tui-accordion-item>
         Контракт
         <ng-template tuiAccordionItemContent>
-          ID: {{ currentItem?.contract?.number }}<br />
+          ID: {{ currentItem?.contract?.id }}<br />
           Дата выполнения: {{ currentItem?.contract?.completionDate | date
           }}<br />
           Дата регистрации: {{ currentItem?.contract?.registrationDate | date
@@ -144,7 +144,7 @@
       <tui-accordion-item>
         Продукт
         <ng-template tuiAccordionItemContent>
-          ID: {{ currentItem?.product?.code }}<br />
+          ID: {{ currentItem?.product?.id }}<br />
           Название: {{ currentItem?.product?.name }}<br />
           Цена: {{ currentItem?.product?.price }}<br />
         </ng-template>

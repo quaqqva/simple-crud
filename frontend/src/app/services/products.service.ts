@@ -8,6 +8,6 @@ import { DbService } from './db.service';
 })
 export class ProductsService extends DbService<Product> {
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'Product', (product) => product.code);
+    super(httpClient, 'products');
   }
 }

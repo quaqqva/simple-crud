@@ -3,7 +3,7 @@ import { Customer } from './customer.model';
 import { Order } from './order.model';
 
 export type Contract = {
-  number?: number;
+  id: number;
   completionDate: string;
   registrationDate?: string;
   customerId: number;

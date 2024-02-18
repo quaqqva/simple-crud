@@ -46,7 +46,7 @@ export class OrdersPageComponent extends BasePageComponent<Order> {
   ];
 
   protected form = this.formBuilder.group({
-    productCode: new FormControl(null, [
+    productId: new FormControl(null, [
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
@@ -54,7 +54,7 @@ export class OrdersPageComponent extends BasePageComponent<Order> {
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
-    contractNumber: new FormControl(null, [
+    contractId: new FormControl(null, [
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
@@ -72,9 +72,9 @@ export class OrdersPageComponent extends BasePageComponent<Order> {
   protected override entityFromForm(): Partial<Order> {
     const order: Partial<Order> = {
       id: this.editedItem?.id || undefined,
-      productCode: Number(this.form.get('productCode')?.value),
+      productId: Number(this.form.get('productId')?.value),
       productQuantity: Number(this.form.get('productQuantity')?.value),
-      contractNumber: Number(this.form.get('contractNumber')?.value),
+      contractId: Number(this.form.get('contractId')?.value),
     };
     return order;
   }

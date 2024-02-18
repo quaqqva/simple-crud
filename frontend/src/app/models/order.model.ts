@@ -3,10 +3,10 @@ import { Contract } from './contract.model';
 import { Product } from './product.model';
 
 export type Order = {
-  id?: number;
+  id: number;
   productQuantity: number;
-  productCode: number;
-  contractNumber: number;
+  productId: number;
+  contractId: number;
   contract: Contract;
   product: Product;
 };

@@ -126,7 +126,7 @@
     </h3>
     <tui-accordion size="s">
       <tui-accordion-item *ngFor="let contract of currentItem?.contracts">
-        №{{ contract.number }}
+        №{{ contract.id }}
         <ng-template tuiAccordionItemContent>
           Дата завершения: {{ contract.completionDate | date }}<br />
           Дата регистрации: {{ contract.registrationDate | date }}

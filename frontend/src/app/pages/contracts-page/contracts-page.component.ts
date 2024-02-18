@@ -63,7 +63,7 @@ export class ContractsPageComponent extends BasePageComponent<Contract> {
 
   protected override entityFromForm(): Partial<Contract> {
     return {
-      number: this.editedItem?.number,
+      id: this.editedItem?.id,
       completionDate: this.form.get('completionDate')!.value!,
       registrationDate: this.form.get('registrationDate')?.value || undefined,
       customerId: this.form.get('customerId')!.value!,

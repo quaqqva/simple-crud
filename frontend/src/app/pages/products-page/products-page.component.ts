@@ -45,7 +45,7 @@ export class ProductsPageComponent extends BasePageComponent<Product> {
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
-    workshopNumber: new FormControl(null, [
+    workshopId: new FormControl(null, [
       Validators.required,
       Validators.pattern(/\d+/),
     ]),
@@ -62,10 +62,10 @@ export class ProductsPageComponent extends BasePageComponent<Product> {
 
   protected override entityFromForm(): Partial<Product> {
     return {
-      code: this.editedItem?.code,
+      id: this.editedItem?.id,
       name: this.form.get('name')!.value!,
       price: this.form.get('price')!.value!,
-      workshopNumber: this.form.get('workshopNumber')!.value!,
+      workshopId: this.form.get('workshopId')!.value!,
     };
   }
 }

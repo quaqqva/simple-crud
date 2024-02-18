@@ -9,6 +9,6 @@ import { Address } from '../models/address.model';
 })
 export class AddressesService extends DbService<Address> {
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'Address', (address) => address.id);
+    super(httpClient, 'addresses');
   }
 }

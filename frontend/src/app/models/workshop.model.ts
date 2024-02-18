@@ -3,7 +3,7 @@ import { Chief } from './chief.model';
 import { Product } from './product.model';
 
 export type Workshop = {
-  number?: number;
+  id: number;
   name: string;
   phoneNumber: string;
   chiefId: number;

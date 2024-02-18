@@ -63,7 +63,7 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
 
   protected override entityFromForm(): Partial<Workshop> {
     return {
-      number: this.editedItem?.number,
+      id: this.editedItem?.id,
       name: this.form.get('name')!.value!,
       phoneNumber: this.form.get('phoneNumber')!.value!,
       chiefId: this.form.get('chiefId')!.value!,

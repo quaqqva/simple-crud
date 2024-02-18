@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { Identifiable } from '../models/identifialbe.model';
 
-export abstract class DbService<T> {
+export abstract class DbService<T extends Identifiable> {
   constructor(
     private httpClient: HttpClient,
     private endpoint: string,
-    private idSelector: (entity: T) => number | undefined,
   ) {}
 
   public async getById(id: number): Promise<T> {
@@ -39,7 +39,7 @@ export abstract class DbService<T> {
   }
 
   public async update(entity: T): Promise<T> {
-    const id = this.idSelector(entity);
+    const { id } = entity;
     if (!id) throw Error('ID не предоставлен');
 
     try {
@@ -56,7 +56,7 @@ export abstract class DbService<T> {
   }
 
   public async delete(entity: T): Promise<void> {
-    const id = this.idSelector(entity);
+    const { id } = entity;
     await firstValueFrom(
       this.httpClient.delete(`${this.endpoint}/${id}`, {
         observe: 'response',

@@ -5,8 +5,9 @@ import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DbService } from '../services/db.service';
+import { Identifiable } from '../models/identifialbe.model';
 
-export default abstract class BasePageComponent<T extends object> {
+export default abstract class BasePageComponent<T extends Identifiable> {
   protected items: T[] = [];
 
   protected shownItems: T[] = [];

@@ -33,7 +33,7 @@
     <tbody tuiTbody [data]="items">
       <tr tuiTr *ngFor="let item of shownItems">
         <td *tuiCell="'ID'" tuiTd>
-          {{ item.number }}
+          {{ item.id }}
         </td>
         <td *tuiCell="'Название'" tuiTd>
           {{ item.name }}
@@ -114,7 +114,7 @@
     <h2 class="entity-details__title">Подробности</h2>
     <div class="entity-value">
       <span class="entity-field-name">ID</span>
-      <span class="entity-field-value">{{ currentItem?.number }}</span>
+      <span class="entity-field-value">{{ currentItem?.id }}</span>
     </div>
     <div class="entity-value">
       <span class="entity-field-name">Название</span>
@@ -144,7 +144,7 @@
       <tui-accordion-item *ngFor="let product of currentItem?.products">
         {{ product?.name }}
         <ng-template tuiAccordionItemContent>
-          ID: {{ product?.code }}<br />
+          ID: {{ product?.id }}<br />
           Цена: {{ product?.price }}<br />
         </ng-template>
       </tui-accordion-item>

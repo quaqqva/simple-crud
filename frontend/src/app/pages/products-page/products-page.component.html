@@ -33,7 +33,7 @@
     <tbody tuiTbody [data]="items">
       <tr tuiTr *ngFor="let item of shownItems">
         <td *tuiCell="'ID'" tuiTd>
-          {{ item.code }}
+          {{ item.id }}
         </td>
         <td *tuiCell="'Название'" tuiTd>
           {{ item.name }}
@@ -96,8 +96,8 @@
       >ID цеха
       <input
         tuiInput
-        formControlName="workshopNumber"
-        [ngModel]="editedItem?.workshopNumber"
+        formControlName="workshopId"
+        [ngModel]="editedItem?.workshopId"
       />
     </label>
     <button type="button" (click)="this.form.reset()">Очистить</button>
@@ -110,7 +110,7 @@
     <h2 class="entity-details__title">Подробности</h2>
     <div class="entity-value">
       <span class="entity-field-name">ID</span>
-      <span class="entity-field-value">{{ currentItem?.code }}</span>
+      <span class="entity-field-value">{{ currentItem?.id }}</span>
     </div>
     <div class="entity-value">
       <span class="entity-field-name">Название</span>
@@ -124,7 +124,7 @@
       <tui-accordion-item>
         Цех, в котором производят
         <ng-template tuiAccordionItemContent>
-          ID: {{ currentItem?.workshop?.number }}<br />
+          ID: {{ currentItem?.workshop?.id }}<br />
           Номер телефона: {{ currentItem?.workshop?.phoneNumber }}
         </ng-template>
       </tui-accordion-item>
