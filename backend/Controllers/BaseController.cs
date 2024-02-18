@@ -27,20 +27,20 @@ namespace backend.Controllers
         {
             if (limit != null || offset != null)
                 Response.Headers["X-Total-Count"] = (await Repository.Count).ToString();
-            string[]? sortCriterias =
-                sortBy.Length == 0
-                    ? null
-                    : sortBy
-                        .SelectMany((fieldsThroughCommas) => fieldsThroughCommas.Split(','))
-                        .ToArray();
-            string[]? parsedFields =
-                fields.Length == 0
-                    ? null
-                    : fields
-                        .SelectMany((fieldsThroughCommas) => fieldsThroughCommas.Split(','))
-                        .ToArray();
             try
             {
+                string[]? sortCriterias =
+                    sortBy.Length == 0
+                        ? null
+                        : sortBy
+                            .SelectMany((fieldsThroughCommas) => fieldsThroughCommas.Split(','))
+                            .ToArray();
+                string[]? parsedFields =
+                    fields.Length == 0
+                        ? null
+                        : fields
+                            .SelectMany((fieldsThroughCommas) => fieldsThroughCommas.Split(','))
+                            .ToArray();
                 var sortOrder = SortOrder.FromValue(order);
                 var entities = await Repository.Read(
                     limit,
@@ -51,6 +51,16 @@ namespace backend.Controllers
                     filter
                 );
                 return new ObjectResult(entities);
+            }
+            catch (NullReferenceException)
+            {
+                return new BadRequestObjectResult(
+                    new ErrorResult()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        Errors = new() { ["Invalid parameter"] = "Query parameter can't be empty" }
+                    }
+                );
             }
             catch (ArgumentException e)
             {
