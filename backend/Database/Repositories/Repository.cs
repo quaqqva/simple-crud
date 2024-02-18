@@ -58,7 +58,7 @@ public abstract class Repository<TEntity>
         }
     }
 
-    public async Task<IEnumerable<TEntity>> Read(
+    public Task<TEntity[]> Read(
         int? limit,
         int? offset,
         string[]? sortCriterias,
@@ -92,7 +92,7 @@ public abstract class Repository<TEntity>
             entities = entities.Skip(offset.Value);
         if (limit != null)
             entities = entities.Take(limit.Value);
-        return await entities.ToArrayAsync();
+        return entities.ToArrayAsync();
     }
 
     public async Task<TEntity> Read(int id, bool withDetails = false)
