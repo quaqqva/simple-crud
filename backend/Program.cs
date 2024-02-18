@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using backend.Database;
-using backend.Utilities.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
