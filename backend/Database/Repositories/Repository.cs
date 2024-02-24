@@ -105,13 +105,14 @@ public abstract class Repository<TEntity>
         return entity;
     }
 
-    public async Task Delete(int id)
+    public async Task<TEntity> Delete(int id)
     {
         TEntity entity = await Read(id);
         try
         {
             DbSet.Remove(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
         catch
         {

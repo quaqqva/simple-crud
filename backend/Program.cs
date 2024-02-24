@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using backend.Database;
+using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -70,11 +72,24 @@ builder
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Address>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Chief>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Contract>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Customer>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Order>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Product>));
+builder.Services.AddSingleton(typeof(EntityNotificationHubOperator<Workshop>));
+
+builder.Services.AddSignalR(hubOptions =>
+{
+    hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(30);
+});
+
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 string password = File.ReadAllText("/run/secrets/db-password");
 connection = connection.Replace("{password}", password);
-builder.Services.AddDbContext<TypographyContext>(
-    options => options.UseMySql(connection, new MySqlServerVersion(new Version(8, 2, 0)))
+builder.Services.AddDbContext<TypographyContext>(options =>
+    options.UseMySql(connection, new MySqlServerVersion(new Version(8, 2, 0)))
 );
 
 var app = builder.Build();
@@ -92,6 +107,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.MapHub<EntityNotificationHub<Address>>("ws/addresses");
+app.MapHub<EntityNotificationHub<Chief>>("ws/chiefs");
+app.MapHub<EntityNotificationHub<Contract>>("ws/contracts");
+app.MapHub<EntityNotificationHub<Customer>>("ws/customers");
+app.MapHub<EntityNotificationHub<Order>>("ws/orders");
+app.MapHub<EntityNotificationHub<Product>>("ws/products");
+app.MapHub<EntityNotificationHub<Workshop>>("ws/workshops");
 
 app.MapControllers();
 app.MapDefaultControllerRoute();

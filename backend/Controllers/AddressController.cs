@@ -2,20 +2,20 @@ using backend.Database;
 using backend.Database.Repositories;
 using backend.Dtos;
 using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("addresses")]
-    public class AddressController : BaseController<Address, AddressDto>
+    public class AddressController(
+        TypographyContext context,
+        EntityNotificationHubOperator<Address> notificationHub
+    ) : BaseController<Address, AddressDto>(notificationHub)
     {
-        protected override Repository<Address> Repository { get; init; }
-
-        public AddressController(TypographyContext context)
-        {
-            Repository = new AddressRepository(context);
-        }
+        protected override Repository<Address> Repository { get; init; } =
+            new AddressRepository(context);
 
         protected override Address EntityFromDto(AddressDto dto, int? id = null)
         {

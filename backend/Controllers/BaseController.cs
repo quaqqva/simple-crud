@@ -4,13 +4,18 @@ using backend.Database;
 using backend.Database.Exceptions;
 using backend.Entities;
 using backend.Utilities.Enums;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    public abstract class BaseController<TEntity, TDto> : ControllerBase
+    public abstract class BaseController<TEntity, TDto>(
+        EntityNotificationHubOperator<TEntity> notificationHub
+    ) : ControllerBase
         where TEntity : class, IIdentifiable
     {
+        private readonly EntityNotificationHubOperator<TEntity> _notificationHub = notificationHub;
+
         protected abstract Repository<TEntity> Repository { get; init; }
 
         protected abstract TEntity EntityFromDto(TDto dto, int? id = null);
@@ -83,7 +88,7 @@ namespace backend.Controllers
             }
             catch (DbNotFoundException e)
             {
-                return NotFoundObject(e);
+                return BaseController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 
@@ -93,11 +98,13 @@ namespace backend.Controllers
             try
             {
                 var entity = EntityFromDto(dto);
-                return new ObjectResult(await Repository.Create(entity));
+                var createdEntity = await Repository.Create(entity);
+                await _notificationHub.Broadcast(EntityActionType.Created, entity);
+                return new ObjectResult(createdEntity);
             }
             catch (DbIntegrityException e)
             {
-                return IntegrityErrorObject(e);
+                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
             }
         }
 
@@ -108,15 +115,16 @@ namespace backend.Controllers
             try
             {
                 await Repository.Update(id, entity);
+                await _notificationHub.Broadcast(EntityActionType.Updated, entity);
                 return new ObjectResult(await Repository.Read(id));
             }
             catch (DbIntegrityException e)
             {
-                return IntegrityErrorObject(e);
+                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
             }
             catch (DbNotFoundException e)
             {
-                return NotFoundObject(e);
+                return BaseController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 
@@ -125,20 +133,21 @@ namespace backend.Controllers
         {
             try
             {
-                await Repository.Delete(id);
+                var deletedEntity = await Repository.Delete(id);
+                await _notificationHub.Broadcast(EntityActionType.Deleted, deletedEntity);
                 return Ok();
             }
             catch (DbIntegrityException e)
             {
-                return IntegrityErrorObject(e);
+                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
             }
             catch (DbNotFoundException e)
             {
-                return NotFoundObject(e);
+                return BaseController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 
-        private ActionResult IntegrityErrorObject(Exception e)
+        private static UnprocessableEntityObjectResult IntegrityErrorObject(Exception e)
         {
             var result = new ErrorResult()
             {
@@ -148,7 +157,7 @@ namespace backend.Controllers
             return new UnprocessableEntityObjectResult(result);
         }
 
-        private ActionResult NotFoundObject(Exception e)
+        private static NotFoundObjectResult NotFoundObject(Exception e)
         {
             var result = new ErrorResult()
             {

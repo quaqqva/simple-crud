@@ -2,20 +2,20 @@ using backend.Database;
 using backend.Database.Repositories;
 using backend.Dtos;
 using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("workshops")]
-    public class WorkshopController : BaseController<Workshop, WorkshopDto>
+    public class WorkshopController(
+        TypographyContext context,
+        EntityNotificationHubOperator<Workshop> notificationHub
+    ) : BaseController<Workshop, WorkshopDto>(notificationHub)
     {
-        protected override Repository<Workshop> Repository { get; init; }
-
-        public WorkshopController(TypographyContext context)
-        {
-            Repository = new WorkshopRepository(context);
-        }
+        protected override Repository<Workshop> Repository { get; init; } =
+            new WorkshopRepository(context);
 
         protected override Workshop EntityFromDto(WorkshopDto dto, int? id = null)
         {

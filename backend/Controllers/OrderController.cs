@@ -2,20 +2,20 @@ using backend.Database;
 using backend.Database.Repositories;
 using backend.Dtos;
 using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("orders")]
-    public class OrderController : BaseController<Order, OrderDto>
+    public class OrderController(
+        TypographyContext context,
+        EntityNotificationHubOperator<Order> notificationHub
+    ) : BaseController<Order, OrderDto>(notificationHub)
     {
-        protected override Repository<Order> Repository { get; init; }
-
-        public OrderController(TypographyContext context)
-        {
-            Repository = new OrderRepository(context);
-        }
+        protected override Repository<Order> Repository { get; init; } =
+            new OrderRepository(context);
 
         protected override Order EntityFromDto(OrderDto dto, int? id = null)
         {

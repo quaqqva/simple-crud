@@ -2,20 +2,20 @@ using backend.Database;
 using backend.Database.Repositories;
 using backend.Dtos;
 using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("chiefs")]
-    public class ChiefController : BaseController<Chief, ChiefDto>
+    public class ChiefController(
+        TypographyContext context,
+        EntityNotificationHubOperator<Chief> notificationHub
+    ) : BaseController<Chief, ChiefDto>(notificationHub)
     {
-        protected override Repository<Chief> Repository { get; init; }
-
-        public ChiefController(TypographyContext context)
-        {
-            Repository = new ChiefRepository(context);
-        }
+        protected override Repository<Chief> Repository { get; init; } =
+            new ChiefRepository(context);
 
         protected override Chief EntityFromDto(ChiefDto dto, int? id = null)
         {

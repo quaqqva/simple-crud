@@ -2,20 +2,20 @@ using backend.Database;
 using backend.Database.Repositories;
 using backend.Dtos;
 using backend.Entities;
+using backend.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("customers")]
-    public class CustomerController : BaseController<Customer, CustomerDto>
+    public class CustomerController(
+        TypographyContext context,
+        EntityNotificationHubOperator<Customer> notificationHub
+    ) : BaseController<Customer, CustomerDto>(notificationHub)
     {
-        protected override Repository<Customer> Repository { get; init; }
-
-        public CustomerController(TypographyContext context)
-        {
-            Repository = new CustomerRepository(context);
-        }
+        protected override Repository<Customer> Repository { get; init; } =
+            new CustomerRepository(context);
 
         protected override Customer EntityFromDto(CustomerDto dto, int? id = null)
         {
