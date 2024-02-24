@@ -2,7 +2,7 @@ using System.Data.Common;
 using System.Linq.Expressions;
 using backend.Database.Exceptions;
 using backend.Entities;
-using backend.Utilities;
+using backend.Utilities.Enums;
 using backend.Utilities.Expressions;
 using backend.Utilities.Extensions;
 using Microsoft.EntityFrameworkCore;

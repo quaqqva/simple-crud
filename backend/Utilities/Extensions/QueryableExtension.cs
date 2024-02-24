@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using backend.Utilities.Enums;
 
 namespace backend.Utilities.Extensions
 {

@@ -3,7 +3,7 @@ using backend.Controllers.ErrorHandling;
 using backend.Database;
 using backend.Database.Exceptions;
 using backend.Entities;
-using backend.Utilities;
+using backend.Utilities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
