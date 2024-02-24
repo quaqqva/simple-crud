@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class AddressController(
         TypographyContext context,
         EntityNotificationHubOperator<Address> notificationHub
-    ) : BaseController<Address, AddressDto>(notificationHub)
+    ) : EntityController<Address, AddressDto>(notificationHub)
     {
         protected override Repository<Address> Repository { get; init; } =
             new AddressRepository(context);

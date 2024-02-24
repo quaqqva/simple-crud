@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class CustomerController(
         TypographyContext context,
         EntityNotificationHubOperator<Customer> notificationHub
-    ) : BaseController<Customer, CustomerDto>(notificationHub)
+    ) : EntityController<Customer, CustomerDto>(notificationHub)
     {
         protected override Repository<Customer> Repository { get; init; } =
             new CustomerRepository(context);

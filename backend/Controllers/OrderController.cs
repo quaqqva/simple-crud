@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class OrderController(
         TypographyContext context,
         EntityNotificationHubOperator<Order> notificationHub
-    ) : BaseController<Order, OrderDto>(notificationHub)
+    ) : EntityController<Order, OrderDto>(notificationHub)
     {
         protected override Repository<Order> Repository { get; init; } =
             new OrderRepository(context);

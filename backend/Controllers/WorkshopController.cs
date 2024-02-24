@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class WorkshopController(
         TypographyContext context,
         EntityNotificationHubOperator<Workshop> notificationHub
-    ) : BaseController<Workshop, WorkshopDto>(notificationHub)
+    ) : EntityController<Workshop, WorkshopDto>(notificationHub)
     {
         protected override Repository<Workshop> Repository { get; init; } =
             new WorkshopRepository(context);

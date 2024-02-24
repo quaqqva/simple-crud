@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    public abstract class BaseController<TEntity, TDto>(
+    public abstract class EntityController<TEntity, TDto>(
         EntityNotificationHubOperator<TEntity> notificationHub
     ) : ControllerBase
         where TEntity : class, IIdentifiable
@@ -88,7 +88,7 @@ namespace backend.Controllers
             }
             catch (DbNotFoundException e)
             {
-                return BaseController<TEntity, TDto>.NotFoundObject(e);
+                return EntityController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 
@@ -104,7 +104,7 @@ namespace backend.Controllers
             }
             catch (DbIntegrityException e)
             {
-                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
+                return EntityController<TEntity, TDto>.IntegrityErrorObject(e);
             }
         }
 
@@ -120,11 +120,11 @@ namespace backend.Controllers
             }
             catch (DbIntegrityException e)
             {
-                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
+                return EntityController<TEntity, TDto>.IntegrityErrorObject(e);
             }
             catch (DbNotFoundException e)
             {
-                return BaseController<TEntity, TDto>.NotFoundObject(e);
+                return EntityController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 
@@ -139,11 +139,11 @@ namespace backend.Controllers
             }
             catch (DbIntegrityException e)
             {
-                return BaseController<TEntity, TDto>.IntegrityErrorObject(e);
+                return EntityController<TEntity, TDto>.IntegrityErrorObject(e);
             }
             catch (DbNotFoundException e)
             {
-                return BaseController<TEntity, TDto>.NotFoundObject(e);
+                return EntityController<TEntity, TDto>.NotFoundObject(e);
             }
         }
 

@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class ProductController(
         TypographyContext context,
         EntityNotificationHubOperator<Product> notificationHub
-    ) : BaseController<Product, ProductDto>(notificationHub)
+    ) : EntityController<Product, ProductDto>(notificationHub)
     {
         protected override Repository<Product> Repository { get; init; } =
             new ProductRepository(context);

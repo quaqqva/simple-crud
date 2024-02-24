@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class ChiefController(
         TypographyContext context,
         EntityNotificationHubOperator<Chief> notificationHub
-    ) : BaseController<Chief, ChiefDto>(notificationHub)
+    ) : EntityController<Chief, ChiefDto>(notificationHub)
     {
         protected override Repository<Chief> Repository { get; init; } =
             new ChiefRepository(context);

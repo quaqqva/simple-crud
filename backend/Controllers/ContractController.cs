@@ -12,7 +12,7 @@ namespace backend.Controllers
     public class ContractController(
         TypographyContext context,
         EntityNotificationHubOperator<Contract> notificationHub
-    ) : BaseController<Contract, ContractDto>(notificationHub)
+    ) : EntityController<Contract, ContractDto>(notificationHub)
     {
         protected override Repository<Contract> Repository { get; init; } =
             new ContractRepository(context);
