@@ -8,20 +8,20 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema typography
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema typography
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `typography` DEFAULT CHARACTER SET utf8 ;
+USE `typography` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Chief`
+-- Table `typography`.`Chief`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Chief` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Chief` (
+  `ID` CHAR(36) NOT NULL,
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
   `Patronymic` VARCHAR(45) NULL,
@@ -31,47 +31,47 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Workshop`
+-- Table `typography`.`Workshop`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Workshop` (
-  `Number` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Workshop` (
+  `Number` CHAR(36) NOT NULL,
   `Name` VARCHAR(90) NOT NULL,
   `PhoneNumber` VARCHAR(20) NOT NULL,
-  `Chief_ID` INT NOT NULL,
+  `Chief_ID` CHAR(36) NOT NULL,
   PRIMARY KEY (`Number`),
   UNIQUE INDEX `WorkshopNumber_UNIQUE` (`Number` ASC) VISIBLE,
   INDEX `fk_Workshop_Chief_idx` (`Chief_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Workshop_Chief`
     FOREIGN KEY (`Chief_ID`)
-    REFERENCES `mydb`.`Chief` (`ID`)
+    REFERENCES `typography`.`Chief` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Product`
+-- Table `typography`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Product` (
-  `Code` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Product` (
+  `Code` CHAR(36) NOT NULL,
   `Name` VARCHAR(45) NOT NULL,
   `Price` INT NOT NULL,
-  `Workshop_Number` INT NOT NULL,
+  `Workshop_Number` CHAR(36) NOT NULL,
   PRIMARY KEY (`Code`),
   INDEX `fk_Product_Workshop1_idx` (`Workshop_Number` ASC) VISIBLE,
   CONSTRAINT `fk_Product_Workshop1`
     FOREIGN KEY (`Workshop_Number`)
-    REFERENCES `mydb`.`Workshop` (`Number`)
+    REFERENCES `typography`.`Workshop` (`Number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Address`
+-- Table `typography`.`Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Address` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Address` (
+  `ID` CHAR(36) NOT NULL,
   `Country` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NOT NULL,
   `Street` VARCHAR(45) NOT NULL,
@@ -81,59 +81,59 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Customer`
+-- Table `typography`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Customer` (
+  `ID` CHAR(36) NOT NULL,
   `Name` VARCHAR(45) NOT NULL,
-  `Address_ID` INT NOT NULL,
+  `Address_ID` CHAR(36) NOT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_Customer_Address1_idx` (`Address_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Customer_Address1`
     FOREIGN KEY (`Address_ID`)
-    REFERENCES `mydb`.`Address` (`ID`)
+    REFERENCES `typography`.`Address` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Contract`
+-- Table `typography`.`Contract`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Contract` (
-  `Number` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Contract` (
+  `Number` CHAR(36) NOT NULL,
   `CompletionDate` DATE NOT NULL,
   `RegistrationDate` DATE NULL,
-  `Customer_ID` INT NOT NULL,
+  `Customer_ID` CHAR(36) NOT NULL,
   PRIMARY KEY (`Number`),
   INDEX `fk_Contract_Customer1_idx` (`Customer_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Contract_Customer1`
     FOREIGN KEY (`Customer_ID`)
-    REFERENCES `mydb`.`Customer` (`ID`)
+    REFERENCES `typography`.`Customer` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Order`
+-- Table `typography`.`Order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Order` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `typography`.`Order` (
+  `ID` CHAR(36) NOT NULL,
   `ProductQuantity` INT NOT NULL,
-  `Product_Code` INT NOT NULL,
-  `Contract_Number` INT NOT NULL,
+  `Product_Code` CHAR(36) NOT NULL,
+  `Contract_Number` CHAR(36) NOT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_Order_Product1_idx` (`Product_Code` ASC) VISIBLE,
   INDEX `fk_Order_Contract1_idx` (`Contract_Number` ASC) VISIBLE,
   CONSTRAINT `fk_Order_Product1`
     FOREIGN KEY (`Product_Code`)
-    REFERENCES `mydb`.`Product` (`Code`)
+    REFERENCES `typography`.`Product` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_Contract1`
     FOREIGN KEY (`Contract_Number`)
-    REFERENCES `mydb`.`Contract` (`Number`)
+    REFERENCES `typography`.`Contract` (`Number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

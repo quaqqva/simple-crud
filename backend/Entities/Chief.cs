@@ -2,7 +2,7 @@
 
 public record Chief : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required string FirstName { get; set; }
 

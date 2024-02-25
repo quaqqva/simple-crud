@@ -2,7 +2,7 @@
 
 public record Address : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required string Country { get; set; }
 

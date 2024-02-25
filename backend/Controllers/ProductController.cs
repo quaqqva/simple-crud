@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Product> Repository { get; init; } =
             new ProductRepository(context);
 
-        protected override Product EntityFromDto(ProductDto dto, int? id = null)
+        protected override Product EntityFromDto(ProductDto dto, Guid? id = null)
         {
             return new Product()
             {

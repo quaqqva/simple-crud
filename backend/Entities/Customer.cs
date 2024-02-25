@@ -2,11 +2,11 @@
 
 public record Customer : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required string Name { get; set; }
 
-    public required int AddressId { get; set; }
+    public required Guid AddressId { get; set; }
 
     public virtual Address? Address { get; init; }
 

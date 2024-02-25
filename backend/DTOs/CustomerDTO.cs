@@ -9,5 +9,5 @@ public record CustomerDto
     public required string Name { get; set; }
 
     [Required(ErrorMessage = "Customer's address' ID must be specified")]
-    public required int AddressId { get; set; }
+    public required Guid AddressId { get; set; }
 }

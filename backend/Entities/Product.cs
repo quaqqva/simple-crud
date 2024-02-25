@@ -4,14 +4,14 @@ namespace backend.Entities;
 
 public record Product : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required string Name { get; set; }
 
     [DefaultValue(-1)]
     public required int Price { get; set; } = -1;
 
-    public required int WorkshopId { get; set; }
+    public required Guid WorkshopId { get; set; }
 
     public virtual ICollection<Order>? Orders { get; init; }
 

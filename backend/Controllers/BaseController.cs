@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    [Authorize]
+    // [Authorize]
     public abstract class EntityController<TEntity, TDto>(
         EntityNotificationHubOperator<TEntity> notificationHub
     ) : ControllerBase
@@ -20,7 +20,7 @@ namespace backend.Controllers
 
         protected abstract Repository<TEntity> Repository { get; init; }
 
-        protected abstract TEntity EntityFromDto(TDto dto, int? id = null);
+        protected abstract TEntity EntityFromDto(TDto dto, Guid? id = null);
 
         [AllowAnonymous]
         [HttpGet]
@@ -83,8 +83,8 @@ namespace backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<TEntity>> Get(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<TEntity>> Get(Guid id)
         {
             try
             {
@@ -112,8 +112,8 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<TEntity>> Put(int id, [FromBody] TDto dto)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<TEntity>> Put(Guid id, [FromBody] TDto dto)
         {
             var entity = EntityFromDto(dto);
             try
@@ -133,7 +133,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TEntity>> Delete(int id)
+        public async Task<ActionResult<TEntity>> Delete(Guid id)
         {
             try
             {

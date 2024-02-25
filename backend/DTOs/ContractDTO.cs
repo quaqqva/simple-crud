@@ -10,5 +10,5 @@ public record ContractDto
     public DateOnly? RegistrationDate { get; set; }
 
     [Required(ErrorMessage = "Contract's customer ID must be specified")]
-    public required int CustomerId { get; set; }
+    public required Guid CustomerId { get; set; }
 }

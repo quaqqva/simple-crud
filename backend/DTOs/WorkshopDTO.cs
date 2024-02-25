@@ -14,5 +14,5 @@ public record WorkshopDto
     public required string PhoneNumber { get; set; }
 
     [Required]
-    public required int ChiefId { get; set; }
+    public required Guid ChiefId { get; set; }
 }

@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Chief> Repository { get; init; } =
             new ChiefRepository(context);
 
-        protected override Chief EntityFromDto(ChiefDto dto, int? id = null)
+        protected override Chief EntityFromDto(ChiefDto dto, Guid? id = null)
         {
             return new Chief()
             {

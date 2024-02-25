@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Order> Repository { get; init; } =
             new OrderRepository(context);
 
-        protected override Order EntityFromDto(OrderDto dto, int? id = null)
+        protected override Order EntityFromDto(OrderDto dto, Guid? id = null)
         {
             return new Order()
             {

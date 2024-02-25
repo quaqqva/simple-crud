@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Contract> Repository { get; init; } =
             new ContractRepository(context);
 
-        protected override Contract EntityFromDto(ContractDto dto, int? id = null)
+        protected override Contract EntityFromDto(ContractDto dto, Guid? id = null)
         {
             return new Contract()
             {

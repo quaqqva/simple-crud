@@ -8,8 +8,8 @@ public record OrderDto
     public required int ProductQuantity { get; set; }
 
     [Required(ErrorMessage = "Order's product id must be specified")]
-    public required int ProductId { get; set; }
+    public required Guid ProductId { get; set; }
 
     [Required(ErrorMessage = "Order's contract id must be specified")]
-    public required int ContractId { get; set; }
+    public required Guid ContractId { get; set; }
 }

@@ -33,6 +33,7 @@ public abstract class Repository<TEntity>
     {
         try
         {
+            entity.Id = Guid.NewGuid();
             EntityEntry<TEntity> newEntityEntry = await DbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
             return newEntityEntry.Entity;
@@ -43,7 +44,7 @@ public abstract class Repository<TEntity>
         }
     }
 
-    public async Task Update(int id, TEntity incoming)
+    public async Task Update(Guid id, TEntity incoming)
     {
         try
         {
@@ -95,7 +96,7 @@ public abstract class Repository<TEntity>
         return entities.ToArrayAsync();
     }
 
-    public async Task<TEntity> Read(int id, bool withDetails = false)
+    public async Task<TEntity> Read(Guid id, bool withDetails = false)
     {
         TEntity? entity = await (withDetails ? EntitiesDetails : DbSet).FirstOrDefaultAsync(
             (entity) => entity.Id == id
@@ -105,7 +106,7 @@ public abstract class Repository<TEntity>
         return entity;
     }
 
-    public async Task<TEntity> Delete(int id)
+    public async Task<TEntity> Delete(Guid id)
     {
         TEntity entity = await Read(id);
         try

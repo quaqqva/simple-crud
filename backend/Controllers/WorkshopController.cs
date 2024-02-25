@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Workshop> Repository { get; init; } =
             new WorkshopRepository(context);
 
-        protected override Workshop EntityFromDto(WorkshopDto dto, int? id = null)
+        protected override Workshop EntityFromDto(WorkshopDto dto, Guid? id = null)
         {
             return new Workshop()
             {

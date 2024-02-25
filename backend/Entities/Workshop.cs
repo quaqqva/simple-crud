@@ -2,13 +2,13 @@
 
 public record Workshop : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required string Name { get; set; }
 
     public required string PhoneNumber { get; set; }
 
-    public required int ChiefId { get; set; }
+    public required Guid ChiefId { get; set; }
 
     public virtual Chief? Chief { get; init; }
 

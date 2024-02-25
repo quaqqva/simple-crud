@@ -17,7 +17,7 @@ namespace backend.Controllers
         protected override Repository<Address> Repository { get; init; } =
             new AddressRepository(context);
 
-        protected override Address EntityFromDto(AddressDto dto, int? id = null)
+        protected override Address EntityFromDto(AddressDto dto, Guid? id = null)
         {
             return new Address()
             {

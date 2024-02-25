@@ -2,13 +2,13 @@
 
 public record Order : IIdentifiable
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     public required int ProductQuantity { get; set; }
 
-    public required int ProductId { get; set; }
+    public required Guid ProductId { get; set; }
 
-    public required int ContractId { get; set; }
+    public required Guid ContractId { get; set; }
 
     public virtual Contract? Contract { get; init; }
 
