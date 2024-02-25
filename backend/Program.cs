@@ -2,9 +2,11 @@ using System.Text.Json.Serialization;
 using backend.Database;
 using backend.Entities;
 using backend.WebSocket;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +87,24 @@ builder.Services.AddSignalR(hubOptions =>
     hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(30);
 });
 
+builder.Services.AddAuthentication((options) => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer((options) => {
+    options.TokenValidationParameters = new() {
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(File.ReadAllBytes("/run/secrets/jwt-key")),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+});
+
+builder.Services.AddAuthorization();
+
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 string password = File.ReadAllText("/run/secrets/db-password");
 connection = connection.Replace("{password}", password);
@@ -104,6 +124,7 @@ else { }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(MyAllowSpecificOrigins);

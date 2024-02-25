@@ -5,10 +5,12 @@ using backend.Database.Exceptions;
 using backend.Entities;
 using backend.Utilities.Enums;
 using backend.WebSocket;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
+    [Authorize]
     public abstract class EntityController<TEntity, TDto>(
         EntityNotificationHubOperator<TEntity> notificationHub
     ) : ControllerBase
@@ -20,6 +22,7 @@ namespace backend.Controllers
 
         protected abstract TEntity EntityFromDto(TDto dto, int? id = null);
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> Get(
             int? limit,
@@ -79,6 +82,7 @@ namespace backend.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TEntity>> Get(int id)
         {

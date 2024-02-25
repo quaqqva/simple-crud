@@ -20,6 +20,7 @@ services:
       context: backend
     secrets:
       - db-password
+      - jwt-key
     depends_on:
       db:
         condition: service_healthy
@@ -29,5 +30,7 @@ services:
       context: frontend
 
 secrets:
+  jwt-key:
+    file: backend/jwt-key.txt
   db-password:
     file: db/password.txt
