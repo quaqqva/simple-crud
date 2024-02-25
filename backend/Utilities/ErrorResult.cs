@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace backend.Controllers.ErrorHandling
+namespace backend.Utilities
 {
     public struct ErrorResult
     {
