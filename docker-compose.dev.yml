@@ -8,7 +8,14 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./backend:/src/
-      - obj:/src/obj
+      - /src/Application/obj
+      - /src/Application/bin
+      - /src/Domain/obj
+      - /src/Domain/bin
+      - /src/Infrastructure/obj
+      - /src/Infrastructure/bin
+      - /src/Web/obj
+      - /src/Web/bin
     ports:
       - 5134:5134
   
@@ -23,4 +30,3 @@ services:
 
 volumes:
   node_modules:
-  obj:
