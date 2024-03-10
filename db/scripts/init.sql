@@ -87,6 +87,8 @@ CREATE TABLE IF NOT EXISTS `typography`.`Customer` (
   `ID` CHAR(36) NOT NULL,
   `Name` VARCHAR(45) NOT NULL,
   `Address_ID` CHAR(36) NOT NULL,
+  `Refresh_Token` CHAR(36),
+  `Refresh_Token_Expires_At` DATETIME,
   PRIMARY KEY (`ID`),
   INDEX `fk_Customer_Address1_idx` (`Address_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Customer_Address1`
