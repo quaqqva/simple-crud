@@ -1,6 +1,7 @@
 # Database API
 
 ## Avaliable endpoints
+
 - ### `/addresses`
   Includes operations with the following **Address**  entity:
   ```
@@ -62,26 +63,35 @@
   ```
 
 ## Methods
+
 - ### ```GET```
   Response body will contain an array of specified entities.<br>
-  Properties that include related entities as objects are not included by default, you can get them if you specify ```fields``` param.
+  Properties that include related entities as objects are not included by default, you can get them if you
+  specify ```fields``` param.
   #### Query parameters
-  - ```fields```: properties that should be included in response body for each entity separated by comma. If not specified, entities will include all properties but those that represent related entities (ex. ```products```, ```chief``` for ```Workshop``` entity). Example: ```fields=id,firstName```
-  - ```filter```: a filter string containing base expressions that can be wrapped in brackets, joined by ```AND```, ```OR```,<br>
-  negated with ```NOT```.
+    - ```fields```: properties that should be included in response body for each entity separated by comma. If not
+      specified, entities will include all properties but those that represent related entities (
+      ex. ```products```, ```chief``` for ```Workshop``` entity). Example: ```fields=id,firstName```
+    - ```filter```: a filter string containing base expressions that can be wrapped in brackets, joined
+      by ```AND```, ```OR```,<br>
+      negated with ```NOT```.
 
   Base expression looks like following: ```{propertyName} {operation} {value}``` (spaces are required), where<br>
   ```operation``` depends on property's type:
     - all comparison operators (```==```) for numbers and dates<br>
     - ```==```, ```!=```, `contains`, `startWith`, `endsWith` for strings
 
-  ```value``` is a constant that should be the same type as property. Strings should be wrapped in quotes (```'```). Dates should be in format ```DD-MM-YYYY``` and wrapper in quotes too.
+  ```value``` is a constant that should be the same type as property. Strings should be wrapped in quotes (```'```).
+  Dates should be in format ```DD-MM-YYYY``` and wrapper in quotes too.
 
   Example url with filter: ```/contracts?filter=not (id < 5) and (completionDate > '17-02-2004')```
-  - ```sortBy```: properties that should be used to determine sort order of array separated by comma. Order of properties determines their priority, for example ```sortBy=firstName,id``` will first sort by ```firstName``` and then by ```id```.
-  - ```limit```: number of entities expected to get.
-  - ```offset```: number of entities expected to skip before those that are included in response.<br>
-  If both ```limit``` and ```offset``` are specified, response will include ```X-Total-Count``` header containing total number of entities.
+    - ```sortBy```: properties that should be used to determine sort order of array separated by comma. Order of
+      properties determines their priority, for example ```sortBy=firstName,id``` will first sort by ```firstName``` and
+      then by ```id```.
+    - ```limit```: number of entities expected to get.
+    - ```offset```: number of entities expected to skip before those that are included in response.<br>
+      If both ```limit``` and ```offset``` are specified, response will include ```X-Total-Count``` header containing
+      total number of entities.
 - ### ```GET/:id```
   Response body will contain an entity with given ```id``` with all properties.<br>
   Returns ```404``` status if such entity is not found.

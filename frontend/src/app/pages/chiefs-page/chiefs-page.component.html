@@ -1,28 +1,28 @@
 <div class="data-table-wrapper">
   <div class="data-table__title-wrapper">
     <button
-      class="page-reload"
-      appearance="flat"
-      tuiButton
       (click)="onReload()"
+      appearance="flat"
+      class="page-reload"
+      tuiButton
     >
       Перезагрузить
     </button>
     <button
-      class="page-create"
-      appearance="flat"
-      tuiButton
       (click)="showCreateDialog()"
+      appearance="flat"
+      class="page-create"
+      tuiButton
     >
       Добавить
     </button>
     <h1 class="page-title">Начальники цехов</h1>
   </div>
   <table
-    tuiTable
     [columns]="itemFieldNames.concat('Действия')"
     class="data-table chiefes"
     size="l"
+    tuiTable
   >
     <thead>
       <tr tuiThGroup>
@@ -30,8 +30,8 @@
         <th [rowSpan]="3" tuiTh>Действия</th>
       </tr>
     </thead>
-    <tbody tuiTbody [data]="items">
-      <tr tuiTr *ngFor="let item of shownItems">
+    <tbody [data]="items" tuiTbody>
+      <tr *ngFor="let item of shownItems" tuiTr>
         <td *tuiCell="'ID'" tuiTd>
           {{ item.id }}
         </td>
@@ -44,31 +44,31 @@
         <td *tuiCell="'Отчество'" tuiTd>
           {{ item.patronymic || '-' }}
         </td>
-        <td class="actions" tuiTd *tuiCell="'Действия'">
+        <td *tuiCell="'Действия'" class="actions" tuiTd>
           <button
-            class="actions__details"
+            (click)="showDetailsDialog(details, item)"
             appearance="details"
+            class="actions__details"
             size="s"
             tuiButton
-            (click)="showDetailsDialog(details, item)"
           >
             Подробности
           </button>
           <button
-            class="actions__update"
+            (click)="showUpdateDialog(item)"
             appearance="update"
+            class="actions__update"
             size="s"
             tuiButton
-            (click)="showUpdateDialog(item)"
           >
             Изменить
           </button>
           <button
-            class="actions__delete"
+            (click)="showDeleteDialog(item)"
             appearance="delete"
+            class="actions__delete"
             size="s"
             tuiButton
-            (click)="showDeleteDialog(item)"
           >
             Удалить
           </button>
@@ -79,39 +79,39 @@
       <tr>
         <td [colSpan]="itemFieldNames.length + 1">
           <tui-table-pagination
-            [total]="items.length"
             (paginationChange)="onPaginationChange($event)"
+            [total]="items.length"
           ></tui-table-pagination>
         </td>
       </tr>
     </tfoot>
   </table>
-  <form class="edit-form" [formGroup]="form" (submit)="onFormSubmit()">
+  <form (submit)="onFormSubmit()" [formGroup]="form" class="edit-form">
     <label for=""
       >Фамилия
       <input
-        tuiInput
-        formControlName="firstName"
         [ngModel]="editedItem?.firstName"
+        formControlName="firstName"
+        tuiInput
       />
     </label>
     <label for=""
       >Имя
       <input
-        tuiInput
-        formControlName="lastName"
         [ngModel]="editedItem?.lastName"
+        formControlName="lastName"
+        tuiInput
       />
     </label>
     <label for=""
       >Отчество
       <input
-        tuiInput
-        formControlName="patronymic"
         [ngModel]="editedItem?.patronymic"
+        formControlName="patronymic"
+        tuiInput
       />
     </label>
-    <button type="button" (click)="this.form.reset()">Очистить</button>
+    <button (click)="this.form.reset()" type="button">Очистить</button>
     <input type="submit" />
   </form>
 </div>
@@ -131,11 +131,11 @@
       <span class="entity-field-name">Фамилия</span>
       <span class="entity-field-value">{{ currentItem?.firstName }}</span>
     </div>
-    <div class="entity-value" *ngIf="currentItem?.patronymic">
+    <div *ngIf="currentItem?.patronymic" class="entity-value">
       <span class="entity-field-name">Отчество</span>
       <span class="entity-field-value">{{ currentItem?.patronymic }}</span>
     </div>
-    <h3 class="entity-list-title" *ngIf="currentItem?.workshops?.length">
+    <h3 *ngIf="currentItem?.workshops?.length" class="entity-list-title">
       Цехи, которыми управляет
     </h3>
     <tui-accordion class="container" size="s">

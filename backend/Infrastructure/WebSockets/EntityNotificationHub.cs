@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace Backend.Infrastructure.WebSockets
+namespace Backend.Infrastructure.WebSockets;
+
+public class EntityNotificationHub<TEntity> : Hub
 {
-    public class EntityNotificationHub<TEntity> : Hub { }
 }

@@ -1,8 +1,9 @@
-namespace Backend.Infrastructure.Exceptions
+namespace Backend.Infrastructure.Exceptions;
+
+public class DbIntegrityException : Exception
 {
-    public class DbIntegrityException : Exception
+    public DbIntegrityException()
+        : base("Entity can't be created/updated because of foreign constraints")
     {
-        public DbIntegrityException()
-            : base("Entity can't be created/updated because of foreign constraints") { }
     }
 }

@@ -5,10 +5,14 @@ namespace Backend.Infrastructure.Database;
 
 public partial class TypographyContext : DbContext
 {
-    public TypographyContext() { }
+    public TypographyContext()
+    {
+    }
 
     public TypographyContext(DbContextOptions<TypographyContext> options)
-        : base(options) { }
+        : base(options)
+    {
+    }
 
     public virtual DbSet<Address> Addresses { get; set; }
 

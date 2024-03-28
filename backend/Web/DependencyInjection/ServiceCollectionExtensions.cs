@@ -1,43 +1,42 @@
 using Backend.Infrastructure;
 
-namespace Backend.Web.DependencyInjection
+namespace Backend.Web.DependencyInjection;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static readonly string CorsPolicyName = "_myAllowSpecificOrigins";
+
+    public static void AddConfiguration(this IServiceCollection services, ConfigurationManager configuration)
     {
-        public static readonly string CorsPolicyName = "_myAllowSpecificOrigins";
+        services.SetupCors();
+        services.AddControllers().ConfigureJsonSerializationOptions();
+        services.AddEndpointsApiExplorer();
+        services.ConfigureWebsocketServices();
+        services.ConfigureAuthenticationAndAuthorization(
+            configuration["JwtSettings:Issuer"]!,
+            configuration["JwtSettings:Audience"]!
+        );
 
-        public static void AddConfiguration(this IServiceCollection services, ConfigurationManager configuration)
+        var connectionStringTemplate = configuration.GetConnectionString(
+            "DefaultConnection"
+        )!;
+        services.SetupDatabaseConnection(connectionStringTemplate);
+        services.AddSwaggerGen();
+    }
+
+    private static void SetupCors(this IServiceCollection services)
+    {
+        services.AddCors(options =>
         {
-            services.SetupCors();
-            services.AddControllers().ConfigureJsonSerializationOptions();
-            services.AddEndpointsApiExplorer();
-            services.ConfigureWebsocketServices();
-            services.ConfigureAuthenticationAndAuthorization(
-                configuration["JwtSettings:Issuer"]!,
-                configuration["JwtSettings:Audience"]!
+            options.AddPolicy(
+                CorsPolicyName,
+                builder =>
+                {
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                    builder.WithOrigins("http://localhost", "http://frontend");
+                }
             );
-
-            string connectionStringTemplate = configuration.GetConnectionString(
-                "DefaultConnection"
-            )!;
-            services.SetupDatabaseConnection(connectionStringTemplate);
-            services.AddSwaggerGen();
-        }
-
-        private static void SetupCors(this IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    name: CorsPolicyName,
-                    builder =>
-                    {
-                        builder.AllowAnyMethod();
-                        builder.AllowAnyHeader();
-                        builder.WithOrigins("http://localhost", "http://frontend");
-                    }
-                );
-            });
-        }
+        });
     }
 }

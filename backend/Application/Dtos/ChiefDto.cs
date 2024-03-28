@@ -12,6 +12,5 @@ public record ChiefDto
     [MaxLength(45)]
     public required string LastName { get; set; }
 
-    [MaxLength(45)]
-    public string? Patronymic { get; set; }
+    [MaxLength(45)] public string? Patronymic { get; set; }
 }

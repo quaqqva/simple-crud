@@ -5,26 +5,25 @@ using Backend.Infrastructure.Database;
 using Backend.Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers
-{
-    [ApiController]
-    [Route("customers")]
-    public class CustomerController(
-        TypographyContext context,
-        IEntityNotificationsService<Customer> notificationsService
-    ) : EntityController<Customer, CustomerDto>(notificationsService)
-    {
-        protected override IRepository<Customer> Repository { get; init; } =
-            new CustomerRepository(context);
+namespace backend.Controllers;
 
-        protected override Customer EntityFromDto(CustomerDto dto, Guid? id = null)
+[ApiController]
+[Route("customers")]
+public class CustomerController(
+    TypographyContext context,
+    IEntityNotificationsService<Customer> notificationsService
+) : EntityController<Customer, CustomerDto>(notificationsService)
+{
+    protected override IRepository<Customer> Repository { get; init; } =
+        new CustomerRepository(context);
+
+    protected override Customer EntityFromDto(CustomerDto dto, Guid? id = null)
+    {
+        return new Customer
         {
-            return new Customer()
-            {
-                Id = id,
-                Name = dto.Name,
-                AddressId = dto.AddressId
-            };
-        }
+            Id = id,
+            Name = dto.Name,
+            AddressId = dto.AddressId
+        };
     }
 }

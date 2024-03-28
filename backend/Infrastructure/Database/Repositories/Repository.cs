@@ -1,5 +1,4 @@
 using System.Data.Common;
-using System.Linq.Expressions;
 using Backend.Application.Enums;
 using Backend.Application.Interfaces;
 using Backend.Domain.Common;
@@ -7,7 +6,6 @@ using Backend.Infrastructure.Exceptions;
 using Backend.Infrastructure.Expressions;
 using Backend.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.Infrastructure.Database.Repositories;
 
@@ -16,26 +14,23 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
 {
     protected TypographyContext _context;
 
-    protected abstract DbSet<TEntity> DbSet { get; init; }
-
-    protected abstract IQueryable<TEntity> EntitiesDetails { get; }
-
-    public Task<int> Count
-    {
-        get => DbSet.CountAsync();
-    }
-
     public Repository(TypographyContext context)
     {
         _context = context;
     }
+
+    protected abstract DbSet<TEntity> DbSet { get; init; }
+
+    protected abstract IQueryable<TEntity> EntitiesDetails { get; }
+
+    public Task<int> Count => DbSet.CountAsync();
 
     public async Task<TEntity> Create(TEntity entity)
     {
         try
         {
             entity.Id = Guid.NewGuid();
-            EntityEntry<TEntity> newEntityEntry = await DbSet.AddAsync(entity);
+            var newEntityEntry = await DbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
             return newEntityEntry.Entity;
         }
@@ -49,7 +44,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
     {
         try
         {
-            TEntity source = await Read(id);
+            var source = await Read(id);
             incoming.Id = id;
             _context.Entry(source).CurrentValues.SetValues(incoming);
             await _context.SaveChangesAsync();
@@ -69,16 +64,16 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
         string filters
     )
     {
-        Expression<Func<TEntity, bool>> filterExpression =
+        var filterExpression =
             FilterExpressionGenerator<TEntity>.GenerateFilterExpression(filters);
-        IQueryable<TEntity> entities = DbSet.AsNoTracking().Where(filterExpression);
+        var entities = DbSet.AsNoTracking().Where(filterExpression);
 
         sortCriterias ??= ["id"];
         order ??= SortOrder.Ascending;
         var firstCriteriaExpression =
             SelectExpressionGenerator<TEntity>.GenerateSelectExpression<dynamic?>(sortCriterias[0]);
         entities = entities.OrderBy(firstCriteriaExpression, order);
-        foreach (string criteria in sortCriterias.Skip(1))
+        foreach (var criteria in sortCriterias.Skip(1))
         {
             var propertyExpression =
                 SelectExpressionGenerator<TEntity>.GenerateSelectExpression<dynamic?>(criteria);
@@ -99,8 +94,8 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
 
     public async Task<TEntity> Read(Guid id, bool withDetails = false)
     {
-        TEntity? entity = await (withDetails ? EntitiesDetails : DbSet).FirstOrDefaultAsync(
-            (entity) => entity.Id == id
+        var entity = await (withDetails ? EntitiesDetails : DbSet).FirstOrDefaultAsync(
+            entity => entity.Id == id
         );
         if (entity == null)
             throw new DbNotFoundException();
@@ -109,7 +104,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity>
 
     public async Task<TEntity> Delete(Guid id)
     {
-        TEntity entity = await Read(id);
+        var entity = await Read(id);
         try
         {
             DbSet.Remove(entity);

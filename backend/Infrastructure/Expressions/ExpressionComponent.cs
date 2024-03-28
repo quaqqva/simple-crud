@@ -1,15 +1,14 @@
-namespace Backend.Infrastructure.Expressions
+namespace Backend.Infrastructure.Expressions;
+
+public enum ExpressionComponentType
 {
-    public enum ExpressionComponentType
-    {
-        Operand,
-        Operation,
-    }
+    Operand,
+    Operation
+}
 
-    public struct ExpressionComponent
-    {
-        public string Value { get; init; }
+public struct ExpressionComponent
+{
+    public string Value { get; init; }
 
-        public ExpressionComponentType Type { get; init; }
-    }
+    public ExpressionComponentType Type { get; init; }
 }

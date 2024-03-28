@@ -1,15 +1,14 @@
-namespace Backend.Infrastructure.Expressions
+namespace Backend.Infrastructure.Expressions;
+
+public enum OperationType
 {
-    public enum OperationType
-    {
-        Unary,
-        Binary
-    }
+    Unary,
+    Binary
+}
 
-    public struct ExpressionOperationInfo
-    {
-        public OperationType Type { get; init; }
+public struct ExpressionOperationInfo
+{
+    public OperationType Type { get; init; }
 
-        public int Cost { get; init; }
-    }
+    public int Cost { get; init; }
 }

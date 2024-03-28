@@ -1,8 +1,9 @@
-namespace Backend.Infrastructure.Exceptions
+namespace Backend.Infrastructure.Exceptions;
+
+public class DbNotFoundException : Exception
 {
-    public class DbNotFoundException : Exception
+    public DbNotFoundException()
+        : base("No entity found with such ID")
     {
-        public DbNotFoundException()
-            : base("No entity found with such ID") { }
     }
 }

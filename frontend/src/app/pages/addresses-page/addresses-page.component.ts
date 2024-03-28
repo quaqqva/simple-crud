@@ -39,6 +39,13 @@ import { AddressesService } from '../../services/addresses.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AddressesPageComponent extends BasePageComponent<Address> {
+  form = this.formBuilder.group({
+    country: new FormControl(null, [Validators.required]),
+    city: new FormControl(null, [Validators.required]),
+    street: new FormControl(null, [Validators.required]),
+    building: new FormControl(null),
+  });
+
   protected override itemFieldNames = [
     'ID',
     'Страна',
@@ -46,13 +53,6 @@ export class AddressesPageComponent extends BasePageComponent<Address> {
     'Улица',
     'Здание',
   ];
-
-  form = this.formBuilder.group({
-    country: new FormControl(null, [Validators.required]),
-    city: new FormControl(null, [Validators.required]),
-    street: new FormControl(null, [Validators.required]),
-    building: new FormControl(null),
-  });
 
   public constructor(
     dbService: AddressesService,

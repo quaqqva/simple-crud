@@ -1,12 +1,11 @@
-namespace Backend.Domain.Common
-{
-    public abstract class BaseEnum(string value)
-    {
-        public string Value { get; } = value;
+namespace Backend.Domain.Common;
 
-        public override string ToString()
-        {
-            return Value;
-        }
+public abstract class BaseEnum(string value)
+{
+    public string Value { get; } = value;
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

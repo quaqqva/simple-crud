@@ -1,4 +1,4 @@
-import { TuiRootModule, TuiDialogModule, TuiAlertModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiDialogModule, TuiRootModule } from '@taiga-ui/core';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';

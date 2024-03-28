@@ -8,6 +8,15 @@ export abstract class DbService<T extends Identifiable> {
     private endpoint: string,
   ) {}
 
+  private static handleError(status: number): void {
+    if (status === 404) throw Error('Сущность с таким ID не найдена');
+    else if (status === 400)
+      throw Error(
+        'Операция не может быть произведена по соображениям целостности. Измените или удалите сущности, зависимые от данной',
+      );
+    else if (status === 500) throw Error('Внутренняя ошибка сервера');
+  }
+
   public async getById(id: number): Promise<T> {
     try {
       const response = await firstValueFrom(
@@ -62,14 +71,5 @@ export abstract class DbService<T extends Identifiable> {
         observe: 'response',
       }),
     ).catch((errResponse) => DbService.handleError(errResponse.status));
-  }
-
-  private static handleError(status: number): void {
-    if (status === 404) throw Error('Сущность с таким ID не найдена');
-    else if (status === 400)
-      throw Error(
-        'Операция не может быть произведена по соображениям целостности. Измените или удалите сущности, зависимые от данной',
-      );
-    else if (status === 500) throw Error('Внутренняя ошибка сервера');
   }
 }

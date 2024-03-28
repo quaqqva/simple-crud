@@ -37,12 +37,6 @@ import BasePageComponent from '../base-page.component';
   styleUrl: './contracts-page.component.scss',
 })
 export class ContractsPageComponent extends BasePageComponent<Contract> {
-  protected override itemFieldNames = [
-    'ID',
-    'Дата выполнения',
-    'Дата регистрации',
-  ];
-
   form = this.formBuilder.group({
     completionDate: new FormControl(null, [Validators.required]),
     registrationDate: new FormControl(null),
@@ -51,6 +45,11 @@ export class ContractsPageComponent extends BasePageComponent<Contract> {
       Validators.pattern(/\d+/),
     ]),
   });
+  protected override itemFieldNames = [
+    'ID',
+    'Дата выполнения',
+    'Дата регистрации',
+  ];
 
   public constructor(
     dbService: ContractsService,

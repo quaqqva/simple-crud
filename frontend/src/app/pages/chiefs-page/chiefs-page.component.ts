@@ -39,13 +39,12 @@ import BasePageComponent from '../base-page.component';
   styleUrl: './chiefs-page.component.scss',
 })
 export class ChiefsPageComponent extends BasePageComponent<Chief> {
-  protected override itemFieldNames = ['ID', 'Фамилия', 'Имя', 'Отчество'];
-
   form = this.formBuilder.group({
     firstName: new FormControl(null, [Validators.required]),
     lastName: new FormControl(null, [Validators.required]),
     patronymic: new FormControl(null),
   });
+  protected override itemFieldNames = ['ID', 'Фамилия', 'Имя', 'Отчество'];
 
   public constructor(
     dbService: ChiefsService,

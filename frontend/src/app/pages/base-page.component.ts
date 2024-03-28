@@ -81,13 +81,6 @@ export default abstract class BasePageComponent<T extends Identifiable> {
     this.paginate();
   }
 
-  private paginate(): void {
-    this.shownItems = this.items.slice(
-      this.pageSize * (this.pageNum - 1),
-      this.pageSize * this.pageNum,
-    );
-  }
-
   protected showOkMessage(message: string): void {
     this.alertService
       .open(message, {
@@ -155,4 +148,11 @@ export default abstract class BasePageComponent<T extends Identifiable> {
   }
 
   protected abstract entityFromForm(): Partial<T>;
+
+  private paginate(): void {
+    this.shownItems = this.items.slice(
+      this.pageSize * (this.pageNum - 1),
+      this.pageSize * this.pageNum,
+    );
+  }
 }

@@ -7,8 +7,7 @@ public record Product : BaseEntity
 {
     public required string Name { get; set; }
 
-    [DefaultValue(-1)]
-    public required int Price { get; set; } = -1;
+    [DefaultValue(-1)] public required int Price { get; set; } = -1;
 
     public required Guid WorkshopId { get; set; }
 

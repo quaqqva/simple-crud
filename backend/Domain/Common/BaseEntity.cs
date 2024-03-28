@@ -1,7 +1,6 @@
-namespace Backend.Domain.Common
+namespace Backend.Domain.Common;
+
+public abstract record BaseEntity
 {
-    public abstract record BaseEntity
-    {
-        public Guid? Id { get; set; }
-    }
+    public Guid? Id { get; set; }
 }

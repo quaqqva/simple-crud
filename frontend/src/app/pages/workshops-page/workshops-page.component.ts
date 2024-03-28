@@ -37,12 +37,6 @@ import BasePageComponent from '../base-page.component';
   styleUrl: './workshops-page.component.scss',
 })
 export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
-  protected override itemFieldNames: string[] = [
-    'ID',
-    'Название',
-    'Номер телефона',
-  ];
-
   form = this.formBuilder.group({
     name: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
@@ -51,6 +45,11 @@ export class WorkshopsPageComponent extends BasePageComponent<Workshop> {
       Validators.pattern(/\d+/),
     ]),
   });
+  protected override itemFieldNames: string[] = [
+    'ID',
+    'Название',
+    'Номер телефона',
+  ];
 
   public constructor(
     dbService: WorkshopsService,

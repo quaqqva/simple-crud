@@ -37,8 +37,6 @@ import BasePageComponent from '../base-page.component';
   styleUrl: './customers-page.component.scss',
 })
 export class CustomersPageComponent extends BasePageComponent<Customer> {
-  protected override itemFieldNames: string[] = ['ID', 'Имя'];
-
   form = this.formBuilder.group({
     name: new FormControl(null, [Validators.required]),
     addressId: new FormControl(null, [
@@ -46,6 +44,7 @@ export class CustomersPageComponent extends BasePageComponent<Customer> {
       Validators.pattern(/\d+/),
     ]),
   });
+  protected override itemFieldNames: string[] = ['ID', 'Имя'];
 
   public constructor(
     dbService: CustomersService,
